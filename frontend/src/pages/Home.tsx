@@ -6,7 +6,7 @@ import TopFilms from "../components/TopFilms";
 import Grid from "../components/layout/Grid";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function Home() {
+const Home = () => {
   const userState = useSelector((state: any) => state.user.value);
   const dispatch = useDispatch();
 
@@ -14,9 +14,12 @@ export default function Home() {
     <>
       <Navbar />
       <h1>Home</h1>
-      <h1>{userState ? "Loggato" : "Sloggato"}</h1>
+      <h1>Username: {userState.username}</h1>
+      <h1>Password:{userState.password}</h1>
       <button className="btn btn-accent">Toccami</button>
       <Footer />
     </>
   );
-}
+};
+
+export default Home;

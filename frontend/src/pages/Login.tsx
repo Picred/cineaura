@@ -1,35 +1,35 @@
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/user.store";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../redux/user";
 
 const Login = () => {
-  const userState = useSelector((state: any) => state.user.value);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [user, setUser] = useState({ username: "", password: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(login({ username: user.username, password: user.password }));
+    navigate("/");
+  };
+
   return (
     <>
       <Navbar />
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">
-              Login stato: {userState ? "Loggato" : "Sloggato"}
-            </h1>
+            <h1 className="text-5xl font-bold">Login</h1>
             <p className="py-6">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa,
-              consequatur.
+              Log in to your account to access all the features of CineAura.
             </p>
           </div>
 
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-            <form
-              className="card-body"
-              onSubmit={(e) => {
-                e.preventDefault();
-                dispatch(login());
-              }}
-            >
+            <form className="card-body" onSubmit={handleSubmit}>
               <div>
                 <label className="input input-bordered flex items-center gap-2">
                   <svg
@@ -41,7 +41,14 @@ const Login = () => {
                     <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                     <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                   </svg>
-                  <input type="text" className="grow" placeholder="Username" />
+                  <input
+                    type="text"
+                    className="grow"
+                    placeholder="Username"
+                    onChange={(e) => {
+                      setUser({ ...user, username: e.target.value });
+                    }}
+                  />
                 </label>
               </div>
               <div className="form-control">
@@ -62,6 +69,9 @@ const Login = () => {
                     type="password"
                     className="grow"
                     placeholder="Password"
+                    onChange={(e) =>
+                      setUser({ ...user, password: e.target.value })
+                    }
                   />
                 </label>
               </div>
@@ -69,25 +79,15 @@ const Login = () => {
                 <button type="submit" className="btn btn-primary">
                   Login
                 </button>
-
-                <button
-                  className="btn btn-primary"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    dispatch(logout());
-                  }}
-                >
-                  Logout
-                </button>
               </div>
-              <a className="link link-hover text-sm">
+              <Link to="/register" className="link link-hover text-sm">
                 Don't have an account yet?
-              </a>
+              </Link>
             </form>
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
