@@ -1,24 +1,23 @@
 import React from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
-
-const handleButtonClick = (e: React.MouseEvent<HTMLElement>) => {
-  e.preventDefault();
-  console.log("Button clicked");
-
-  // TODO: route to homepage with react
-};
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <>
       <div className="navbar bg-neutral">
         <div className="flex-1">
-          <button
-            className="btn btn-ghost text-xl text-neutral-content"
-            onClick={handleButtonClick}
-          >
-            CineAura
-          </button>
+          <Link to={"/"}>
+            <button className="btn btn-ghost text-xl text-neutral-content">
+              CineAura
+            </button>
+          </Link>
+
+          <Link to={"/login"}>
+            <button className="btn btn-ghost text-xl text-neutral-content">
+              Login
+            </button>
+          </Link>
         </div>
 
         <div className="flex-none gap-4">

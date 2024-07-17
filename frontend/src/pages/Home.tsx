@@ -4,26 +4,18 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import TopFilms from "../components/TopFilms";
 import Grid from "../components/layout/Grid";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Home() {
-  const [isLogged, setIsLogged] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [needRegistration, setNeedRegistration] = useState(false);
-
-  const loginUser = () => {
-    // setIsLogged(true);
-    setNeedRegistration(true);
-  };
+  const userState = useSelector((state: any) => state.user.value);
+  const dispatch = useDispatch();
 
   return (
     <>
       <Navbar />
-
-      {needRegistration ? <h1>Registration</h1> : <Login isLogged={isLogged} />}
-
-      <div className="btn btn-primary" onClick={loginUser}>
-        Need Registration
-      </div>
+      <h1>Home</h1>
+      <h1>{userState ? "Loggato" : "Sloggato"}</h1>
+      <button className="btn btn-accent">Toccami</button>
       <Footer />
     </>
   );
