@@ -1,19 +1,27 @@
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/user.store";
+import { login, useLoginAction } from "../redux/user.store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const loginAction = useLoginAction();
+
   const [user, setUser] = useState({ username: "", password: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     dispatch(login({ username: user.username, password: user.password }));
-    navigate("/");
+
+    loginAction({ username: user.username, password: user.password }).then(
+      () => {
+        navigate("/");
+      }
+    );
   };
 
   return (

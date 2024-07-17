@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../types/user";
+import { LoginParams, loginUser } from "../api/user.api";
 
 export const userStore = createSlice({
   name: "user",
@@ -16,6 +17,13 @@ export const userStore = createSlice({
     },
   },
 });
+
+export const useLoginAction = () => {
+  return async (params: LoginParams) => {
+    // console.log("Qui devo fare la chiamata API. Ho ricevuto --> ", params);
+    const loginResult = await loginUser(params);
+  };
+};
 
 export const { login, logout } = userStore.actions;
 export const userReducer = userStore.reducer;
