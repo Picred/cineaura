@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { showAllUsers } from "../db/userOperations";
+import { registerUserDB } from "../db/userOperations";
 const express = require("express");
 const userRouter = express.Router();
 
-userRouter.post("/auth/login", (req: Request, res: Response) => {
-  showAllUsers();
+userRouter.post("/auth/register", (req: Request, res: Response) => {
+  registerUserDB(req.body);
   console.log("Incoming request with body: ", req.body);
   res.send({ username: "userLogged", password: "passwordLogged" });
 });
