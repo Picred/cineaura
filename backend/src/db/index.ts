@@ -1,6 +1,6 @@
-import { createConnection } from "mysql2";
+import { createPool } from "mysql2";
 
-export const conn = createConnection({
+export const conn = createPool({
   host: "localhost",
   user: "user",
   password: "password",

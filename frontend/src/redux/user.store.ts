@@ -20,8 +20,11 @@ export const userStore = createSlice({
 
 export const useLoginAction = () => {
   return async (params: LoginParams) => {
-    // console.log("Qui devo fare la chiamata API. Ho ricevuto --> ", params);
-    const loginResult = await loginUser(params);
+    await loginUser(params)
+      .then((result) => console.log("Server Response: ", result))
+      .catch((e) => {
+        console.log("Error during login: ", e.statusText);
+      });
   };
 };
 

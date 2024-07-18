@@ -17,11 +17,13 @@ const Login = () => {
 
     dispatch(login({ username: user.username, password: user.password }));
 
-    loginAction({ username: user.username, password: user.password }).then(
-      () => {
-        navigate("/");
-      }
-    );
+    user.username.trim().length > 0 &&
+      user.password.trim().length > 0 &&
+      loginAction({ username: user.username, password: user.password }).then(
+        () => {
+          navigate("/");
+        }
+      );
   };
 
   return (
@@ -53,6 +55,7 @@ const Login = () => {
                     type="text"
                     className="grow"
                     placeholder="Username"
+                    required
                     onChange={(e) => {
                       setUser({ ...user, username: e.target.value });
                     }}
@@ -77,6 +80,7 @@ const Login = () => {
                     type="password"
                     className="grow"
                     placeholder="Password"
+                    required
                     onChange={(e) =>
                       setUser({ ...user, password: e.target.value })
                     }
@@ -95,7 +99,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
     </>
   );
 };

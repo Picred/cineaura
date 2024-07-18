@@ -3,9 +3,10 @@ import { showAllUsers } from "../db/userOperations";
 const express = require("express");
 const userRouter = express.Router();
 
-userRouter.get("/auth/login", (req: Request, res: Response) => {
+userRouter.post("/auth/login", (req: Request, res: Response) => {
   showAllUsers();
-  res.send("Hello from login route");
+  console.log("Incoming request with body: ", req.body);
+  res.send({ username: "userLogged", password: "passwordLogged" });
 });
 
 export default userRouter;
