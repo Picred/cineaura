@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login, useLoginAction } from "../redux/user.store";
+import { loginStore, useLoginAction } from "../redux/user.store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(login({ username: user.username, password: user.password }));
+    dispatch(loginStore({ username: user.username, password: user.password }));
 
     user.username.trim().length > 0 &&
       user.password.trim().length > 0 &&

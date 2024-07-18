@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../types/user";
-import { LoginParams, loginUser } from "../api/user.api";
+import {
+  LoginParams,
+  RegisterParams,
+  loginUser,
+  registerUser,
+} from "../api/user.api";
 
 export const userStore = createSlice({
   name: "user",
@@ -8,11 +13,11 @@ export const userStore = createSlice({
     value: {} as UserType,
   },
   reducers: {
-    login(state, action) {
+    loginStore(state, action) {
       state.value.username = action.payload.username;
       state.value.password = action.payload.password;
     },
-    logout(state) {
+    logoutStore(state) {
       state.value = {} as UserType;
     },
   },
@@ -28,5 +33,15 @@ export const useLoginAction = () => {
   };
 };
 
-export const { login, logout } = userStore.actions;
+export const useRegisterAction = () => {
+  return async (params: RegisterParams) => {
+    await registerUser(params)
+      .then((result) => console.log("Server Response: ", result))
+      .catch((e) => {
+        console.log("Error during register: ", e.statusText);
+      });
+  };
+};
+
+export const { loginStore, logoutStore } = userStore.actions;
 export const userReducer = userStore.reducer;
