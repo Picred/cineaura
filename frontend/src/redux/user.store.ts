@@ -37,8 +37,9 @@ export const useRegisterAction = () => {
   return async (params: RegisterParams) => {
     await registerUser(params)
       .then((result) => console.log("Server Response: ", result))
+      // ora ho il token in result
       .catch((e) => {
-        console.log("Error during registration: ", e.statusText);
+        console.log("Error during registration: ", e);
       });
   };
 };

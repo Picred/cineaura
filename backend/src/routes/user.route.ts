@@ -36,7 +36,7 @@ userRouter.post("/auth/register", async (req: Request, res: Response) => {
 
     res
       .cookie("token", token, cookieOptions)
-      .send({ msg: "Congratulazioni. Controlla il token nei cookie." }); // Assuming you want to set the token as a cookie
+      .send({ msg: "Congratulazioni. Controlla il token nei cookie." });
   } catch (e) {
     res.status(500).send("Error during registration process: " + e);
   }

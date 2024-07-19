@@ -40,7 +40,7 @@ export const registerUserDB = async (user: UserType) => {
         user.password,
         keyPair.privateKey,
         keyPair.publicKey,
-        true,
+        true, // true = isAdmin (for now) TODO: change this
       ],
       (err, result) => {
         if (err) reject("Error: registerUserDB");
