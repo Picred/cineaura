@@ -13,11 +13,15 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api", userRouter);
 
-// app.post("/api/auth/login", (req: Request, res: Response) => {
-//   console.log("Incoming request with req obj: ", req);
-//   res.send("OK GRAZIE <3");
-// });
-
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
 });
+
+// import { getUserInfoByUsername, UserCompleteInfo } from "./db/userOperations";
+
+// let myuser: UserCompleteInfo;
+// // getUserKeysByUsername("o").then((keys) => console.log(keys));
+// getUserInfoByUsername("o").then((user) => {
+//   myuser = user;
+//   console.log(myuser.privateKey);
+// });

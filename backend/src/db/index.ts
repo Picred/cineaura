@@ -4,6 +4,6 @@ export const conn = createPool({
   host: "localhost",
   user: "user",
   password: "password",
-  database: "test",
+  database: "cineaura",
   connectionLimit: 10,
 });

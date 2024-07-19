@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS cineaura;
+
+USE cineaura;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    privateKey TEXT NOT NULL,
+    publicKey TEXT NOT NULL,
+    isAdmin BOOLEAN DEFAULT FALSE
+);
