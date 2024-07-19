@@ -38,7 +38,7 @@ export const useRegisterAction = () => {
     await registerUser(params)
       .then((result) => console.log("Server Response: ", result))
       .catch((e) => {
-        console.log("Error during register: ", e.statusText);
+        console.log("Error during registration: ", e.statusText);
       });
   };
 };
