@@ -1,6 +1,6 @@
 import { conn } from "./index";
 import fs from "fs/promises";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import { UserType } from "../types/UserType";
 import { QueryError, QueryResult, ResultSetHeader } from "mysql2";
 import { generateKeyPairSync } from "crypto";
@@ -19,16 +19,15 @@ export type UserCompleteInfo = {
   isAdmin: boolean;
 };
 
-export const getJWTSecret = (): string => {
-  return "mySecretKey";
+export const tokenOptions: SignOptions = {
+  expiresIn: "2h",
+  algorithm: "RS256",
 };
 
 export const registerUserDB = async (user: UserType) => {
-  // TODO: hash password
   let keyPair: KeyPair;
 
   await generateKeys().then((keys) => (keyPair = keys));
-  //TODO: hash keys
 
   return new Promise<number | string>((resolve, reject) => {
     const sql =
@@ -53,7 +52,7 @@ export const registerUserDB = async (user: UserType) => {
 export const generateKeys = (): Promise<KeyPair> => {
   return new Promise((resolve, reject) => {
     const { privateKey, publicKey } = generateKeyPairSync("rsa", {
-      modulusLength: 1024,
+      modulusLength: 2048,
       publicKeyEncoding: {
         type: "spki",
         format: "pem",
@@ -72,7 +71,9 @@ export const generateKeys = (): Promise<KeyPair> => {
   });
 };
 
-export const getUserKeysByUsername = async (username: string) => {
+export const getUserKeysByUsername = async (
+  username: string
+): Promise<KeyPair> => {
   return new Promise<KeyPair>((resolve, reject) => {
     const sql = "SELECT privateKey, publicKey FROM users WHERE username = ?";
 
@@ -88,8 +89,8 @@ export const getUserKeysByUsername = async (username: string) => {
       }
 
       resolve({
-        privateKey: JSON.stringify(results[0].privateKey),
-        publicKey: JSON.stringify(results[0].publicKey),
+        privateKey: results[0].privateKey,
+        publicKey: results[0].publicKey,
       });
     });
   });
@@ -115,4 +116,37 @@ export const getUserInfoByUsername = async (
       resolve(results[0]);
     });
   });
+};
+
+export const loginUser = async (user: UserType) => {
+  return new Promise<string>((resolve, reject) => {
+    const sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+
+    conn.query<any>(sql, [user.username, user.password], (err, results) => {
+      if (err) {
+        reject("");
+        return;
+      }
+
+      if (results.length === 0) {
+        reject("");
+        return;
+      }
+
+      const user: UserCompleteInfo = results[0];
+      const token = signToken(user);
+
+      resolve(token);
+    });
+  });
+};
+
+export const signToken = (user: UserCompleteInfo): string => {
+  const payload = { id: user.id, isAdmin: user.isAdmin };
+  return jwt.sign(payload, user.privateKey, tokenOptions);
+};
+
+export const verifyToken = async (token: string, publicKey: string) => {
+  const payload = await jwt.verify(token, publicKey, tokenOptions);
+  return payload;
 };

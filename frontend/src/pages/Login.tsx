@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { loginStore, useLoginAction } from "../redux/user.store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { verify } from "../api/user.api";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,11 +20,7 @@ const Login = () => {
 
     user.username.trim().length > 0 &&
       user.password.trim().length > 0 &&
-      loginAction({ username: user.username, password: user.password }).then(
-        () => {
-          navigate("/");
-        }
-      );
+      loginAction({ username: user.username, password: user.password });
   };
 
   return (

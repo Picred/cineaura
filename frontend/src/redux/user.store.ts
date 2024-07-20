@@ -5,7 +5,9 @@ import {
   RegisterParams,
   loginUser,
   registerUser,
+  verify,
 } from "../api/user.api";
+import { useNavigate } from "react-router-dom";
 
 export const userStore = createSlice({
   name: "user",
@@ -24,12 +26,16 @@ export const userStore = createSlice({
 });
 
 export const useLoginAction = () => {
+  const navigate = useNavigate();
   return async (params: LoginParams) => {
     await loginUser(params)
-      .then((result) => console.log("Server Response: ", result))
-      .catch((e) => {
-        console.log("Error during login: ", e.statusText);
+      .then(() => navigate("/"))
+      .catch(() => {
+        console.log("Invalid credentials");
       });
+    // verify(params)
+    //   .then((result) => console.log(result))
+    //   .catch(() => {});
   };
 };
 

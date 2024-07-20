@@ -3,6 +3,8 @@ import userRouter from "./routes/user.route";
 const app: Express = express();
 const cors = require("cors");
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());

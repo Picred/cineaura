@@ -27,3 +27,13 @@ export const registerUser = (params: RegisterParams) => {
     result.ok ? (result.json() as Promise<string>) : Promise.reject(result)
   );
 };
+
+export const verify = (params: LoginParams) => {
+  return fetch("/api/auth/verify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  }).then((result) =>
+    result.ok ? (result.json() as Promise<string>) : Promise.reject(result)
+  );
+};
