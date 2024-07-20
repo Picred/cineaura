@@ -30,12 +30,14 @@ export const useLoginAction = () => {
   return async (params: LoginParams) => {
     await loginUser(params)
       .then(() => navigate("/"))
-      .catch(() => {
-        console.log("Invalid credentials");
+      .catch((e) => {
+        console.log("Invalid credentials: ", e);
       });
     // verify(params)
     //   .then((result) => console.log(result))
-    //   .catch(() => {});
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
   };
 };
 
@@ -45,7 +47,7 @@ export const useRegisterAction = () => {
       .then((result) => console.log("Server Response: ", result))
       // ora ho il token in result
       .catch((e) => {
-        console.log("Error during registration: ", e);
+        console.log("Username already exists or password doesn't match", e);
       });
   };
 };

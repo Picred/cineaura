@@ -43,7 +43,12 @@ export const registerUserDB = async (user: UserType) => {
       ],
       (err, result) => {
         if (err) reject("Error: registerUserDB");
-        resolve(result.affectedRows);
+
+        try {
+          resolve(result.affectedRows);
+        } catch {
+          reject(0);
+        }
       }
     );
   });
@@ -146,7 +151,7 @@ export const signToken = (user: UserCompleteInfo): string => {
   return jwt.sign(payload, user.privateKey, tokenOptions);
 };
 
-export const verifyToken = async (token: string, publicKey: string) => {
-  const payload = await jwt.verify(token, publicKey, tokenOptions);
+export const verifyToken = (token: string, publicKey: string) => {
+  const payload = jwt.verify(token, publicKey, tokenOptions);
   return payload;
 };
