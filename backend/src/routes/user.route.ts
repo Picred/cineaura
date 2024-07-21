@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import {
+  // registerUserDB2,
   registerUserDB,
   generateKeys,
   getUserInfoByUsername,
   signToken,
   loginUser,
+  loadKeys,
 } from "../db/userOperations";
 import { userAuth } from "../middlewares/userAuth";
 
@@ -14,28 +16,24 @@ const userRouter = express.Router();
 
 userRouter.post("/auth/register", async (req: Request, res: Response) => {
   try {
-    await registerUserDB(req.body);
-    generateKeys();
+    const user = req.body;
+    const token = await registerUserDB(user);
 
-    const user = await getUserInfoByUsername(req.body.username);
+    if (typeof token === "string") {
+      const cookieOptions = {
+        expires: new Date(Date.now() + 7.2e6), // 2 hours
+        httpOnly: false,
+        secure: false,
+      };
 
-    if (!user) {
-      return res.status(404).send("User not found.");
+      res.cookie("token", token, cookieOptions).send({
+        msg: "Registrato con successo. Un nuovo cookie è stato impostato.",
+      });
+    } else {
+      res.status(500).send({ msg: "Errore nella registrazione dell'utente" });
     }
-
-    const cookieOptions = {
-      expires: new Date(Date.now() + 7.2e6), // 2 hours
-      httpOnly: true,
-      secure: false,
-    };
-
-    const token = signToken(user);
-
-    res
-      .cookie("token", token, cookieOptions)
-      .send({ msg: "Congratulazioni. Controlla il token nei cookie." });
   } catch (e) {
-    res.status(500).send("Error during registration process: " + e);
+    res.status(500).send({ msg: "ERRORE: " + e });
   }
 });
 
@@ -60,11 +58,6 @@ userRouter.post("/auth/login", async (req: Request, res: Response) => {
     res.send("ERRORE LOGIN: " + JSON.stringify(e));
   }
 });
-
-// userRouter.post("/auth/logout", (req: Request, res: Response) => {
-//   res.clearCookie("token").send("Cookie eliminato.");
-// remove jwt token
-// });
 
 userRouter.post("/auth/verify", userAuth, (req: Request, res: Response) => {
   res.send({ msg: "Token valido." });

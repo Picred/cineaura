@@ -29,9 +29,13 @@ export const useLoginAction = () => {
   const navigate = useNavigate();
   return async (params: LoginParams) => {
     await loginUser(params)
-      .then(() => navigate("/"))
-      .catch((e) => {
-        console.log("Invalid credentials: ", e);
+      .then(() => {
+        navigate("/");
+        console.log("Login successful.");
+        // Ora settare lo store con i dati,
+      })
+      .catch(() => {
+        console.log("Invalid credentials."); // come gestisco questo? come mostro un errore al client?
       });
     // verify(params)
     //   .then((result) => console.log(result))
@@ -42,12 +46,14 @@ export const useLoginAction = () => {
 };
 
 export const useRegisterAction = () => {
-  return async (params: RegisterParams) => {
-    await registerUser(params)
-      .then((result) => console.log("Server Response: ", result))
+  return (params: RegisterParams) => {
+    registerUser(params)
+      .then((result) => {
+        return result;
+      })
       // ora ho il token in result
       .catch((e) => {
-        console.log("Username already exists or password doesn't match", e);
+        return "PROBLEMIIIIIIIIIIIIIIIIII: RICEVUTO ERRORE: -> ";
       });
   };
 };

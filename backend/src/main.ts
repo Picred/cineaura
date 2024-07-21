@@ -1,7 +1,10 @@
 import express, { Express, Request, Response } from "express";
 import userRouter from "./routes/user.route";
+import { generateKeys } from "./db/userOperations";
 export const app: Express = express();
 const cors = require("cors");
+
+generateKeys();
 
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());

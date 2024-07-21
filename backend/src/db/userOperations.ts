@@ -2,7 +2,7 @@ import { conn } from "./index";
 import fs from "fs/promises";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { UserType } from "../types/UserType";
-import { QueryError, QueryResult, ResultSetHeader } from "mysql2";
+import { QueryError, QueryResult, ResultSetHeader } from "mysql2/promise";
 import { generateKeyPairSync } from "crypto";
 
 type KeyPair = {
@@ -14,8 +14,6 @@ export type UserCompleteInfo = {
   id: number;
   username: string;
   password: string;
-  privateKey: string;
-  publicKey: string;
   isAdmin: boolean;
 };
 
@@ -24,30 +22,58 @@ export const tokenOptions: SignOptions = {
   algorithm: "RS256",
 };
 
-export const registerUserDB = async (user: UserType) => {
-  let keyPair: KeyPair;
+// export const registerUserDB = async (user: UserType) => {
+//   let keyPair: KeyPair;
 
-  await generateKeys().then((keys) => (keyPair = keys));
+//   await generateKeys().then((keys) => (keyPair = keys));
 
-  return new Promise<number | string>((resolve, reject) => {
-    const sql =
-      "insert into users (username, password, privateKey, publicKey, isAdmin) values (?, ?, ?, ?, ?);";
+//   return new Promise<number | string>((resolve, reject) => {
+//     const sql =
+//       "insert into users (username, password, isAdmin) values (?, ?, ?);";
+//     conn.query<ResultSetHeader>(
+//       sql,
+//       [
+//         user.username,
+//         user.password,
+//         true, // true = isAdmin (for now) TODO: change this
+//       ],
+//       (err, result) => {
+//         if (err) reject("Error: registerUserDB");
+
+//         try {
+//           resolve(result.affectedRows);
+//         } catch {
+//           reject(0);
+//         }
+//       }
+//     );
+//   });
+// };
+
+export const registerUserDB = async (user: UserType): Promise<boolean> => {
+  const sql =
+    "insert into users (username, password, isAdmin) values (?, ?, ?);";
+
+  return new Promise((resolve, reject) => {
     conn.query<ResultSetHeader>(
       sql,
       [
         user.username,
         user.password,
-        keyPair.privateKey,
-        keyPair.publicKey,
         true, // true = isAdmin (for now) TODO: change this
       ],
       (err, result) => {
-        if (err) reject("Error: registerUserDB");
+        if (err) {
+          console.error("Error: registerUserDB", err);
+          resolve(false);
+          return;
+        }
 
         try {
-          resolve(result.affectedRows);
-        } catch {
-          reject(0);
+          resolve(result.affectedRows > 0);
+        } catch (error) {
+          console.error("Error processing result: ", error);
+          resolve(false);
         }
       }
     );
@@ -76,30 +102,36 @@ export const generateKeys = (): Promise<KeyPair> => {
   });
 };
 
-export const getUserKeysByUsername = async (
-  username: string
-): Promise<KeyPair> => {
-  return new Promise<KeyPair>((resolve, reject) => {
-    const sql = "SELECT privateKey, publicKey FROM users WHERE username = ?";
+export async function loadKeys(): Promise<KeyPair> {
+  const privateKey = await fs.readFile("data/privateKey.pem", "utf-8");
+  const publicKey = await fs.readFile("data/publicKey.pem", "utf-8");
 
-    conn.query<any>(sql, [username], (err, results) => {
-      if (err) {
-        reject("Error: getUserKeysByUsername");
-        return;
-      }
+  return { privateKey: privateKey, publicKey: publicKey };
+}
 
-      if (results.length === 0) {
-        reject("User not found");
-        return;
-      }
+// export const getUserKeysByUsername = async (
+//   username: string
+// ): Promise<KeyPair> => {
+//   const sql = "SELECT privateKey, publicKey FROM users WHERE username = ?";
+//   return new Promise<KeyPair>((resolve, reject) => {
+//     conn.query<any>(sql, [username], (err, results) => {
+//       if (err) {
+//         reject(err);
+//         return;
+//       }
 
-      resolve({
-        privateKey: results[0].privateKey,
-        publicKey: results[0].publicKey,
-      });
-    });
-  });
-};
+//       if (results.length === 0) {
+//         reject(new Error("User not found"));
+//         return;
+//       }
+
+//       resolve({
+//         privateKey: results[0].privateKey,
+//         publicKey: results[0].publicKey,
+//       });
+//     });
+//   });
+// };
 
 export const getUserInfoByUsername = async (
   username: string
@@ -148,7 +180,7 @@ export const loginUser = async (user: UserType) => {
 
 export const signToken = (user: UserCompleteInfo): string => {
   const payload = { id: user.id, isAdmin: user.isAdmin };
-  return jwt.sign(payload, user.privateKey, tokenOptions);
+  return jwt.sign(payload, user.password, tokenOptions);
 };
 
 export const verifyToken = (token: string, publicKey: string) => {

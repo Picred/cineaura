@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { getUserKeysByUsername, verifyToken } from "../db/userOperations";
+import { loadKeys, verifyToken } from "../db/userOperations";
 import { Request, Response } from "express";
 
 const jwt = require("jsonwebtoken");
@@ -9,12 +9,11 @@ const userAuth = async (req: Request, res: Response, next: NextFunction) => {
   if (!token) {
     return res.status(401).send("Token not found");
   }
-  //   let payload;
   try {
-    const keys = await getUserKeysByUsername(req.body.username);
+    const keys = await loadKeys();
 
-    console.log(req.body);
-    await verifyToken(token, keys.publicKey);
+    console.log(keys);
+    verifyToken(token, keys.publicKey);
     next();
   } catch (error) {
     return res.status(401).send("Invalid or expired token.");
