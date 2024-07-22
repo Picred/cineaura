@@ -1,11 +1,11 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { useStore } from "zustand";
+import { authStore } from "../zustand/AuthStore";
 
 const Home = () => {
-  const userState = useSelector((state: any) => state.user.value);
-  const dispatch = useDispatch();
+  const auth = useStore(authStore);
 
   return (
     <>
@@ -16,9 +16,7 @@ const Home = () => {
         </button>
       </Link>
       <h1>Home</h1>
-      {/* {console.log("COOKIE: " + document.cookie)} */}
-      <h1>Username: {userState.username}</h1>
-      <h1>Password:{userState.password}</h1>
+      <h1>Username: {auth.username}</h1>
       <Footer />
     </>
   );

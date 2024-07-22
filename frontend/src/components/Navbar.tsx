@@ -1,11 +1,10 @@
 import ThemeSwitcher from "./ThemeSwitcher";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutStore } from "../redux/user.store";
+import { authStore } from "../zustand/AuthStore";
+import { useStore } from "zustand";
 
 const Navbar = () => {
-  const userState = useSelector((state: any) => state.user.value);
-  const dispatch = useDispatch();
+  const auth = useStore(authStore);
 
   return (
     <>
@@ -41,13 +40,13 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
+                <a className="justify-between font-bold text-md">
+                  {auth.username}
+                  {/* <span className="badge">New</span> */}
                 </a>
               </li>
               <li>
-                {!userState.username && (
+                {!auth.username && (
                   <Link to={"/login"} className="justify-between">
                     Login
                   </Link>
@@ -55,11 +54,11 @@ const Navbar = () => {
               </li>
 
               <li>
-                {userState.username && (
+                {auth.username && (
                   <Link to={"/"}>
                     <span
                       className="justify-between"
-                      onClick={() => dispatch(logoutStore())}
+                      onClick={() => auth.logout()}
                     >
                       Logout
                     </span>

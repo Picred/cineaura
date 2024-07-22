@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
 import { toast } from "react-toastify";
+import { notify } from "../utils/notify";
 
 // import { verify } from "../api/user.api";
 
@@ -22,25 +23,11 @@ const Login = () => {
       auth
         .login({ username: user.username, password: user.password })
         .then(() => {
-          toast.success("Loggato!", {
-            position: "bottom-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          notify("Successfully logged in!", "success", auth.theme as string);
           navigate("/");
         })
         .catch((error) => {
-          toast.error(error, {
-            position: "bottom-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          notify(error, "error", auth.theme as string);
         });
   };
 

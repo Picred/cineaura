@@ -1,6 +1,8 @@
 import { useState } from "react";
-
+import { useStore } from "zustand";
+import { authStore } from "../zustand/AuthStore";
 const ThemeSwitcher = () => {
+  const auth = useStore(authStore);
   const [theme, setTheme] = useState("");
 
   const toggleTheme = () => {
@@ -8,9 +10,11 @@ const ThemeSwitcher = () => {
     if (theme === "night") {
       document.documentElement.setAttribute("data-theme", "nord");
       setTheme("nord");
+      auth.theme = "light";
     } else {
       document.documentElement.setAttribute("data-theme", "night");
       setTheme("night");
+      auth.theme = "dark";
     }
   };
 

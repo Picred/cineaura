@@ -41,10 +41,10 @@ userRouter.post("/auth/login", async (req: Request, res: Response) => {
           .cookie("token", token, cookieOptions)
           .send({ msg: "User registered." });
       } else {
-        res.status(401).send({ msg: "Password errata." });
+        res.status(401).send({ msg: "Wrong password." });
       }
     } else {
-      res.status(401).send({ msg: "Username non trovato. Registrati" });
+      res.status(401).send({ msg: "User not found. Please register." });
     }
   });
 });

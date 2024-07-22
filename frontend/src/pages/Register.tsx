@@ -6,6 +6,7 @@ import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { notify } from "../utils/notify";
 
 const Register = () => {
   const auth = useStore(authStore);
@@ -36,25 +37,11 @@ const Register = () => {
     auth
       .register({ username: user.username, password: user.password })
       .then(() => {
-        toast.success("Registrato!", {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        notify("Successfully registered!", "success", auth.theme as string);
         navigate("/");
       })
       .catch((error) => {
-        toast.error(error, {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        notify(error, "error", auth.theme as string);
       });
   };
 

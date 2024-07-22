@@ -8,6 +8,7 @@ import {
 
 interface AuthStore {
   username: string | null;
+  theme: string | null;
   login(params: LoginParams): Promise<void>;
   register(params: RegisterParams): Promise<void>;
   logout(): void;
@@ -15,6 +16,7 @@ interface AuthStore {
 
 export const authStore = create<AuthStore>((set) => ({
   username: null,
+  theme: "dark",
   login: (params: LoginParams) =>
     loginUser(params)
       .then((_) => set({ username: params.username }))
@@ -30,8 +32,8 @@ export const authStore = create<AuthStore>((set) => ({
       .catch((error) => {
         throw error;
       }),
-
   logout: () => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     set({ username: null });
   },
 }));
