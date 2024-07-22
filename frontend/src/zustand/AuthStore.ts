@@ -19,7 +19,6 @@ export const authStore = create<AuthStore>((set) => ({
     loginUser(params)
       .then((_) => set({ username: params.username }))
       .catch((error) => {
-        console.error("Login failed:", error);
         throw error;
       }),
   register: (params: RegisterParams) =>
@@ -29,7 +28,6 @@ export const authStore = create<AuthStore>((set) => ({
         return message;
       })
       .catch((error) => {
-        console.error("Registration failed:", error);
         throw error;
       }),
 

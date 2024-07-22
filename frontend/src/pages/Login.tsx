@@ -1,26 +1,47 @@
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginStore, useLoginAction } from "../redux/user.store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { verify } from "../api/user.api";
+import { useStore } from "zustand";
+import { authStore } from "../zustand/AuthStore";
+import { toast } from "react-toastify";
+
+// import { verify } from "../api/user.api";
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const auth = useStore(authStore);
   const navigate = useNavigate();
-  const loginAction = useLoginAction();
 
   const [user, setUser] = useState({ username: "", password: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(loginStore({ username: user.username, password: user.password }));
-
     user.username.trim().length > 0 &&
       user.password.trim().length > 0 &&
-      loginAction({ username: user.username, password: user.password });
+      auth
+        .login({ username: user.username, password: user.password })
+        .then(() => {
+          toast.success("Loggato!", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          navigate("/");
+        })
+        .catch((error) => {
+          toast.error(error, {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        });
   };
 
   return (
