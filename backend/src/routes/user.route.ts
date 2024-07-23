@@ -38,7 +38,6 @@ userRouter.post("/auth/login", async (req: Request, res: Response) => {
         res
           .cookie("token", token, cookieOptions)
           .send({ msg: "User logged.", isAdmin: user.isAdmin });
-        console.log(cookieOptions.expires);
       } else {
         res.status(401).send({ msg: "Wrong password." });
       }
