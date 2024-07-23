@@ -22,11 +22,21 @@ app.listen(8080, () => {
   console.log("Server is running on port 8080");
 });
 
-// import { getUserInfoByUsername, UserCompleteInfo } from "./db/userOperations";
+import { createFilm, getAllFilms } from "./db/filmsOperations";
+import { FilmType } from "./db/filmsOperations";
 
-// let myuser: UserCompleteInfo;
-// // getUserKeysByUsername("o").then((keys) => console.log(keys));
-// getUserInfoByUsername("o").then((user) => {
-//   myuser = user;
-//   console.log(myuser.privateKey);
+createFilm({
+  title: "MyFILM",
+  release_year: 1994,
+  duration: 142,
+  genre: "Drama",
+  description: "Two imprisone",
+  cast: "Tim Robbins, Morgan Freeman, Bob Gunton",
+  rating: 9.3,
+}).catch((e) => {
+  console.log("ERRORE: ", e);
+});
+
+// getAllFilms().then((films) => {
+//   console.log(films);
 // });

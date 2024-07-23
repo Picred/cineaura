@@ -2,7 +2,7 @@ import { conn } from "./index";
 import fs from "fs/promises";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { UserType } from "../types/UserType";
-import { QueryError, QueryResult, ResultSetHeader } from "mysql2/promise";
+import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { generateKeyPairSync } from "crypto";
 
 type KeyPair = {
@@ -58,13 +58,24 @@ export async function loadKeys(): Promise<KeyPair> {
   return { privateKey: privateKey, publicKey: publicKey };
 }
 
-export function getUserInfoByUsername(username: string): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM users WHERE username = ?";
-    conn.query<ResultSetHeader[]>(sql, [username], (_, results) => {
-      resolve(results[0]);
-    });
-  });
+export async function getUserInfoByUsername(
+  username: string
+): Promise<UserType | null> {
+  const sql = "SELECT * FROM users WHERE username = ?";
+  try {
+    const [results] = await conn.query<UserType[] & RowDataPacket[]>(sql, [
+      username,
+    ]);
+
+    if (results.length > 0) {
+      return results[0];
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
 
 export function signToken(user: UserCompleteInfo, key: string): string {
