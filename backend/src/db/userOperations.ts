@@ -26,7 +26,7 @@ export function registerUserDB(user: UserType) {
   const sql =
     "insert into users (username, password, isAdmin) values (?, ?, ?);";
 
-  conn.execute(sql, [user.username, user.password, false]);
+  conn.execute<ResultSetHeader>(sql, [user.username, user.password, false]);
 }
 
 export const generateKeys = (): Promise<KeyPair> => {

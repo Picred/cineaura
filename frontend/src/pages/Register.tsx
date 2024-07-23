@@ -38,7 +38,7 @@ const Register = () => {
       .register({ username: user.username, password: user.password })
       .then(() => {
         notify("Successfully registered!", "success", auth.theme as string);
-        navigate("/");
+        navigate("/login");
       })
       .catch((error) => {
         notify(error, "error", auth.theme as string);

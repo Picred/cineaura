@@ -7,22 +7,22 @@ export type RegisterParams = {
   username: string;
   password: string;
 };
-export const loginUser = (params: LoginParams) => {
+export const loginUser = async (params: LoginParams) => {
   return fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   })
-    .then((response) => {
+    .then(async (response) => {
       if (!response.ok) {
         return response.json().then((error) => {
-          return Promise.reject(error.msg || "Errore durante il login");
+          return Promise.reject(error.msg || "Login error!");
         });
       }
       return response.json();
     })
     .then((data) => {
-      return { message: data.msg };
+      return { message: data.msg, isAdmin: data.isAdmin };
     })
     .catch((error) => {
       console.error("Error during login:", error);
@@ -30,7 +30,7 @@ export const loginUser = (params: LoginParams) => {
     });
 };
 
-export const registerUser = (params: RegisterParams) => {
+export const registerUser = async (params: RegisterParams) => {
   return fetch("/api/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

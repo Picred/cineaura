@@ -11,7 +11,7 @@ const Home = () => {
     <>
       <Navbar />
       <Link to="/register">
-        <button className="btn btn-secondary font-semibold w-48 h-48">
+        <button className="btn btn-secondary font-semibold w-36 h-36">
           Registrati
         </button>
       </Link>

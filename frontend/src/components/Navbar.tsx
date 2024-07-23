@@ -41,7 +41,7 @@ const Navbar = () => {
             >
               <li>
                 <a className="justify-between font-bold text-md">
-                  {auth.username}
+                  {auth.username ? auth.username : "Guest"}
                   {/* <span className="badge">New</span> */}
                 </a>
               </li>
