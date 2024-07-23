@@ -14,11 +14,11 @@ export type UserCompleteInfo = {
   id: number;
   username: string;
   password: string;
-  isAdmin?: boolean;
+  isAdmin: boolean;
 };
 
 export const tokenOptions: SignOptions = {
-  expiresIn: "2h",
+  expiresIn: "10s",
   algorithm: "RS256",
 };
 
@@ -26,7 +26,7 @@ export function registerUserDB(user: UserType) {
   const sql =
     "insert into users (username, password, isAdmin) values (?, ?, ?);";
 
-  conn.execute(sql, [user.username, user.password, true]);
+  conn.execute(sql, [user.username, user.password, false]);
 }
 
 export const generateKeys = (): Promise<KeyPair> => {
@@ -60,12 +60,13 @@ export async function loadKeys(): Promise<KeyPair> {
 
 export async function getUserInfoByUsername(
   username: string
-): Promise<UserType | null> {
+): Promise<UserCompleteInfo | null> {
   const sql = "SELECT * FROM users WHERE username = ?";
   try {
-    const [results] = await conn.query<UserType[] & RowDataPacket[]>(sql, [
-      username,
-    ]);
+    const [results] = await conn.query<UserCompleteInfo[] & RowDataPacket[]>(
+      sql,
+      [username]
+    );
 
     if (results.length > 0) {
       return results[0];

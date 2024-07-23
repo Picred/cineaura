@@ -4,6 +4,7 @@ import {
   getUserInfoByUsername,
   signToken,
   loadKeys,
+  UserCompleteInfo,
 } from "../db/userOperations";
 import { userAuth } from "../middlewares/userAuth";
 
@@ -36,7 +37,7 @@ userRouter.post("/auth/login", async (req: Request, res: Response) => {
     if (user) {
       if (user.password === req.body.password) {
         const keys = await loadKeys();
-        const token = signToken(req.body, keys.privateKey);
+        const token = signToken(user, keys.privateKey);
         res
           .cookie("token", token, cookieOptions)
           .send({ msg: "User registered." });
