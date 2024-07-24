@@ -10,11 +10,11 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <Link to="/register">
+      {/* <Link to="/register">
         <button className="btn btn-secondary font-semibold w-36 h-36">
-          Registrati
+          Registrati, sei admin?
         </button>
-      </Link>
+      </Link> */}
       <h1>Home</h1>
       <h1>Username: {auth.username}</h1>
       <Footer />

@@ -14,6 +14,15 @@ const Navbar = () => {
             CineAura
           </Link>
         </div>
+
+        {auth.isAdmin && (
+          <div className="flex-1">
+            <Link to="/admin-dashboard" className="btn btn-secondary text-xl">
+              Admin Dashboard
+            </Link>
+          </div>
+        )}
+
         <div className="flex-none gap-2">
           <div className="form-control">
             <input

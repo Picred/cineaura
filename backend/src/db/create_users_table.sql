@@ -21,6 +21,10 @@ CREATE TABLE IF NOT EXISTS films (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO users (username, password, isAdmin) VALUES
+('admin', 'admin', TRUE),
+('user', 'user', FALSE);
+
 INSERT INTO films (title, release_year, duration, genre, description, cast, rating) VALUES
 ('The Irishman', 2019, 209, 'Crime', 'A mob hitman recalls his possible involvement with the slaying of Jimmy Hoffa.', 'Robert De Niro, Al Pacino, Joe Pesci', 7.8),
 ('Parasite', 2019, 132, 'Thriller', 'Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.', 'Kang-ho Song, Sun-kyun Lee, Yeo-jeong Jo', 8.6),
