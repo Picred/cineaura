@@ -1,9 +1,10 @@
 import express, { Express, Request, Response } from "express";
-import userRouter from "./routes/user.route";
+import apiRouter from "./routes/api.route";
 import { generateKeys } from "./db/userOperations";
-export const app: Express = express();
 import cors from "cors";
+import filmRouter from "./routes/films.route";
 
+export const app: Express = express();
 const cookieParser = require("cookie-parser");
 
 app.use(cookieParser());
@@ -13,11 +14,12 @@ app.use(cors());
 
 generateKeys();
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
-});
+app.use("/api", apiRouter);
+app.use("/api", filmRouter);
 
-app.use("/api", userRouter);
+app.post("/test", (req: Request, res: Response) => {
+  res.send({ msg: "Hello World!" });
+});
 
 app.listen(8080, () => {
   console.log("Server is running on port 8080");

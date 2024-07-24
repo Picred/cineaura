@@ -4,13 +4,10 @@ import {
   getUserInfoByUsername,
   signToken,
   loadKeys,
-  UserCompleteInfo,
 } from "../db/userOperations";
 import express from "express";
 
-import { userAuth } from "../middlewares/userAuth";
-
-const userRouter = express.Router();
+const apiRouter = express.Router();
 
 const cookieOptions = {
   expires: new Date(Date.now() + 1.44e7),
@@ -18,7 +15,7 @@ const cookieOptions = {
   secure: false,
 };
 
-userRouter.post("/auth/register", async (req: Request, res: Response) => {
+apiRouter.post("/user/auth/register", async (req: Request, res: Response) => {
   getUserInfoByUsername(req.body.username).then(async (user) => {
     if (user) {
       res.status(401).send({ msg: "Username already exists." });
@@ -29,7 +26,7 @@ userRouter.post("/auth/register", async (req: Request, res: Response) => {
   });
 });
 
-userRouter.post("/auth/login", async (req: Request, res: Response) => {
+apiRouter.post("/user/auth/login", async (req: Request, res: Response) => {
   getUserInfoByUsername(req.body.username).then(async (user) => {
     if (user) {
       if (user.password === req.body.password) {
@@ -47,4 +44,4 @@ userRouter.post("/auth/login", async (req: Request, res: Response) => {
   });
 });
 
-export default userRouter;
+export default apiRouter;

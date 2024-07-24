@@ -7,8 +7,9 @@ export type RegisterParams = {
   username: string;
   password: string;
 };
+
 export const loginUser = async (params: LoginParams) => {
-  return fetch("/api/auth/login", {
+  return fetch("/api/user/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
@@ -31,7 +32,7 @@ export const loginUser = async (params: LoginParams) => {
 };
 
 export const registerUser = async (params: RegisterParams) => {
-  return fetch("/api/auth/register", {
+  return fetch("/api/user/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
@@ -52,13 +53,3 @@ export const registerUser = async (params: RegisterParams) => {
       return Promise.reject(error);
     });
 };
-
-// export const verify = (params: LoginParams) => {
-//   return fetch("/api/auth/verify", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(params),
-//   }).then((result) =>
-//     result.ok ? (result.json() as Promise<string>) : Promise.reject(result)
-//   );
-// };

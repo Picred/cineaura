@@ -8,6 +8,7 @@ export type FilmType = {
   genre: string;
   description: string;
   cast: string;
+  img: string;
   rating: number;
 };
 
@@ -27,7 +28,7 @@ export async function getAllFilms(): Promise<FilmType[] | undefined> {
 
 export async function createFilm(film: FilmType): Promise<void> {
   const sql =
-    "INSERT INTO films (title, release_year, duration, genre, description, cast, rating) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO films (title, release_year, duration, genre, description, cast, rating, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
   try {
     await conn.execute(sql, [
@@ -38,6 +39,7 @@ export async function createFilm(film: FilmType): Promise<void> {
       film.description,
       film.cast,
       film.rating,
+      film.img,
     ]);
   } catch (err) {
     console.log(err); // TODO: handle error without app crash

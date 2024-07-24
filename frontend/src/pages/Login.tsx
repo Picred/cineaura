@@ -4,10 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
-import { toast } from "react-toastify";
 import { notify } from "../utils/notify";
-
-// import { verify } from "../api/user.api";
 
 const Login = () => {
   const auth = useStore(authStore);

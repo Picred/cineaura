@@ -2,9 +2,17 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { Link } from "react-router-dom";
 import { authStore } from "../zustand/AuthStore";
 import { useStore } from "zustand";
+import { useState } from "react";
 
 const Navbar = () => {
   const auth = useStore(authStore);
+
+  const [searchFilm, setSearchFilm] = useState("");
+
+  const handleSearchFilm = () => {
+    setSearchFilm("");
+    //TODO: get film by name
+  };
 
   return (
     <>
@@ -15,7 +23,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {auth.isAdmin && (
+        {auth.isAdmin == true && (
           <div className="flex-1">
             <Link to="/admin-dashboard" className="btn btn-secondary text-xl">
               Admin Dashboard
@@ -24,12 +32,19 @@ const Navbar = () => {
         )}
 
         <div className="flex-none gap-2">
-          <div className="form-control">
+          <div className="join">
             <input
-              type="text"
+              className="input input-bordered join-item"
               placeholder="Search"
-              className="input input-bordered w-24 md:w-auto"
+              value={searchFilm}
+              onChange={(e) => setSearchFilm(e.target.value)}
             />
+            <button
+              className="btn btn-outline join-item rounded-lg"
+              onClick={handleSearchFilm}
+            >
+              Search film
+            </button>
           </div>
           <div className="dropdown dropdown-end">
             <div
