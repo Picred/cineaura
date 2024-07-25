@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createFilm,
   getAllFilms,
+  getFilmById,
   //   getFilmById,
   //   updateFilm,
   //   deleteFilm,
@@ -30,19 +31,19 @@ filmRouter.get("/films", async (req: Request, res: Response) => {
   }
 });
 
-// // Get a movie by ID
-// filmRouter.get("/movies/:id", async (req: Request, res: Response) => {
-//   try {
-//     const movie = await getMovieByIdDB(req.params.id);
-//     if (movie) {
-//       res.send(movie);
-//     } else {
-//       res.status(404).send({ msg: "Movie not found." });
-//     }
-//   } catch (error) {
-//     res.status(500).send({ msg: "Error retrieving movie.", error });
-//   }
-// });
+// Get a movie by ID
+filmRouter.get("/films/:id", async (req: Request, res: Response) => {
+  try {
+    const film = await getFilmById(Number(req.params.id));
+    if (film) {
+      res.send(film);
+    } else {
+      res.status(404).send({ msg: "Film not found." });
+    }
+  } catch (error) {
+    res.status(500).send({ msg: "Error retrieving film.", error });
+  }
+});
 
 // // Update a movie by ID
 // filmRouter.put("/movies/:id", async (req: Request, res: Response) => {

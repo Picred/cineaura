@@ -1,16 +1,6 @@
+import { FilmType } from "../types/FilmType";
 import { conn } from "./index";
 import { RowDataPacket } from "mysql2/promise";
-
-export type FilmType = {
-  title: string;
-  release_year: number;
-  duration: number;
-  genre: string;
-  description: string;
-  cast: string;
-  img: string;
-  rating: number;
-};
 
 export async function getAllFilms(): Promise<FilmType[] | undefined> {
   const sql = "SELECT * FROM films";
@@ -43,5 +33,19 @@ export async function createFilm(film: FilmType): Promise<void> {
     ]);
   } catch (err) {
     console.log(err); // TODO: handle error without app crash
+  }
+}
+
+export async function getFilmById(id: number): Promise<FilmType | undefined> {
+  const sql = "SELECT * FROM films WHERE id = ?";
+
+  try {
+    const [results] = await conn.query<FilmType[] & RowDataPacket[]>(sql, [id]);
+
+    if (results.length) {
+      return results[0];
+    }
+  } catch (err) {
+    throw err;
   }
 }

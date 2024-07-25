@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 const jwt = require("jsonwebtoken");
 
-const userAuth = async (req: Request, res: Response, next: NextFunction) => {
+const isLogged = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.token;
   if (!token) {
     return res.status(401).send("Token not found");
@@ -12,7 +12,7 @@ const userAuth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const keys = await loadKeys();
 
-    console.log(keys);
+    // console.log(keys);
     verifyToken(token, keys.publicKey);
     next();
   } catch (error) {
@@ -20,4 +20,8 @@ const userAuth = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { userAuth };
+const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
+  console.log("admin");
+  next();
+};
+export { isLogged, isAdmin };

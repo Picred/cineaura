@@ -81,7 +81,7 @@ export async function getUserInfoByUsername(
 
 export function signToken(user: UserCompleteInfo, key: string): string {
   const payload = { id: user.id, isAdmin: user.isAdmin };
-  return jwt.sign(payload, key, tokenOptions);
+  return jwt.sign(payload, key, tokenOptions); // TODO: 2h expiration tokeOptions
 }
 
 export const verifyToken = (token: string, publicKey: string) => {

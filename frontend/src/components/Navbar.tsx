@@ -6,7 +6,6 @@ import { useState } from "react";
 
 const Navbar = () => {
   const auth = useStore(authStore);
-
   const [searchFilm, setSearchFilm] = useState("");
 
   const handleSearchFilm = () => {
@@ -15,24 +14,22 @@ const Navbar = () => {
   };
 
   return (
-    <>
-      <div className="navbar bg-neutral">
-        <div className="flex-1">
-          <Link to="/" className="btn btn-primary text-xl">
-            CineAura
-          </Link>
-        </div>
+    <div className="navbar bg-neutral p-4">
+      <div className="flex items-center justify-between w-full">
+        <Link to="/" className="btn btn-primary text-xl">
+          CineAura
+        </Link>
 
-        {auth.isAdmin == true && (
-          <div className="flex-1">
+        {auth.isAdmin && (
+          <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1">
             <Link to="/admin-dashboard" className="btn btn-secondary text-xl">
               Admin Dashboard
             </Link>
           </div>
         )}
 
-        <div className="flex-none gap-2">
-          <div className="join">
+        <div className="flex items-center gap-2">
+          <div className="join lg:flex lg:items-center">
             <input
               className="input input-bordered join-item"
               placeholder="Search"
@@ -46,6 +43,7 @@ const Navbar = () => {
               Search film
             </button>
           </div>
+
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -54,7 +52,7 @@ const Navbar = () => {
             >
               <div className="w-10 rounded-full">
                 <img
-                  alt="Tailwind CSS Navbar component"
+                  alt="User Avatar"
                   src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                 />
               </div>
@@ -66,7 +64,6 @@ const Navbar = () => {
               <li>
                 <a className="justify-between font-bold text-md">
                   {auth.username ? auth.username : "Guest"}
-                  {/* <span className="badge">New</span> */}
                 </a>
               </li>
               <li>
@@ -76,7 +73,6 @@ const Navbar = () => {
                   </Link>
                 )}
               </li>
-
               <li>
                 {auth.username && (
                   <Link to={"/"}>
@@ -91,10 +87,19 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
+
+          <ThemeSwitcher />
         </div>
-        <ThemeSwitcher />
+
+        {auth.isAdmin && (
+          <div className="lg:hidden fixed bottom-4 right-4 z-50">
+            <Link to="/admin-dashboard" className="btn btn-secondary">
+              Admin Dashboard
+            </Link>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
