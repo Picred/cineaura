@@ -1,6 +1,8 @@
 import { FilmType } from "../types/FilmType";
 import { useNavigate } from "react-router-dom";
-
+import { useStore } from "zustand";
+import { authStore } from "../zustand/AuthStore";
+import { filmStore } from "../zustand/filmStore";
 const FilmCard = ({
   id,
   title,
@@ -12,8 +14,10 @@ const FilmCard = ({
   rating,
 }: FilmType) => {
   const navigate = useNavigate();
+  const auth = useStore(authStore);
+  const films = useStore(filmStore);
+
   const showDetails = (filmId: number) => {
-    console.log("SHOW DETAILS:", filmId);
     navigate(`/films/${filmId}`);
   };
 
@@ -30,22 +34,25 @@ const FilmCard = ({
           className="w-full h-full object-cover"
         />
       </figure>
-      <div className="card-body w-full md:w-2/3 p-4 flex flex-col">
+      <div className="card-body w-full md:w-2/3 p-4 flex flex-col ">
         <div className="flex-grow mb-4">
-          <h2 className="card-title text-lg md:text-xl mb-2 ">{title}</h2>
-          <p className="mb-1">Release year: {release_year}</p>
-          <p className="mb-1">Duration: {duration}</p>
-          <p className="mb-1">Genre: {genre}</p>
+          <h2 className="card-title lg:text-4xl md:text-xl mb-2 ">{title}</h2>
+          {/* <p className="mb-1">Release year: {release_year}</p> */}
+          <p className="mb-1">Duration: {duration} minutes</p>
+          {/* <p className="mb-1">Genre: {genre}</p> */}
           {/* <p className="mb-1">Cast: {cast}</p> */}
           {/* <p className="mb-1">Rating: {rating}</p> */}
         </div>
-        <div className="card-actions flex gap-2 justify-end mt-auto">
+        <div className="card-actions flex gap-2 justify-center mt-auto">
           <button className="btn btn-secondary" onClick={() => showDetails(id)}>
             Details
           </button>
-          <button className="btn btn-error" onClick={() => deleteFilm(id)}>
-            Delete film
-          </button>
+
+          {auth.isAdmin && (
+            <button className="btn btn-error" onClick={() => deleteFilm(id)}>
+              Delete film
+            </button>
+          )}
         </div>
       </div>
     </div>

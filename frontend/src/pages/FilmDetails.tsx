@@ -27,7 +27,7 @@ const FilmDetails = () => {
       <div className="relative">
         <img src={film.img} className="h-96 w-full object-cover" alt="" />
       </div>
-      <div className="container mx-auto grid grid-cols-12 gap-6">
+      <div className="container mx-auto grid grid-cols-12 gap-16 ">
         <div className="flex flex-col gap-4 col-span-12 md:col-span-4 lg:col-span-3">
           <div className="relative h-48">
             <div className="absolute bottom-0 w-full">
@@ -39,11 +39,11 @@ const FilmDetails = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-12 md:col-span-8 lg:col-span-9">
+        <div className="col-span-12 md:col-span-8 lg:col-span-9 ">
           <h1 className="text-6xl font-bold">
             {film.title} ({film.release_year})
           </h1>
-          <p className="text-info text-lg mt-2">
+          <p className=" text-lg mt-2">
             {film.genre} | {film.duration} minutes
           </p>
           <div
@@ -53,12 +53,12 @@ const FilmDetails = () => {
           >
             {film.rating}
           </div>
-          <p className="text-info text-lg mt-2">Description</p>
-          <div className="divider divider-info"></div>
-          <p className="text-white text-lg mt-1">{film.description}</p>
-          <div className="divider divider-info"></div>
-          <p className="text-info text-lg mt-2">Cast</p>
-          <p className="text-white text-lg mt-1 mb-10">{film.cast}</p>
+          <p className=" text-lg mt-2">Description</p>
+          <div className="divider divider-primary"></div>
+          <p className=" text-lg mt-1">{film.description}</p>
+          <div className="divider divider-primary"></div>
+          <p className=" text-lg mt-2">Cast</p>
+          <p className=" text-lg mt-1 mb-10">{film.cast}</p>
         </div>
       </div>
 

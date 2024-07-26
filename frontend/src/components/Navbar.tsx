@@ -93,7 +93,7 @@ const Navbar = () => {
 
         {auth.isAdmin && (
           <div className="lg:hidden fixed bottom-4 left-4 z-50 ">
-            <Link to="/admin-dashboard" className="btn btn-info">
+            <Link to="/admin-dashboard" className="btn btn-secondary">
               Admin Dashboard
             </Link>
           </div>
