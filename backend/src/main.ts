@@ -1,4 +1,6 @@
 import express, { Express } from "express";
+import http from "http";
+import { Server } from "socket.io";
 import apiRouter from "./routes/api.route";
 import { generateKeys } from "./db/userOperations";
 import cors from "cors";
@@ -17,6 +19,30 @@ generateKeys();
 app.use("/api", apiRouter);
 app.use("/api", filmRouter);
 
-app.listen(8080, () => {
+// Creazione del server HTTP
+const server = http.createServer(app);
+
+// Inizializzazione di socket.io
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+// Gestione degli eventi di socket.io
+io.on("connection", (socket) => {
+  console.log("Un client si è connesso:", socket.id);
+
+  socket.on("messaggio", (data) => {
+    console.log("Messaggio ricevuto:", data);
+    socket.emit("risposta", { message: "Messaggio ricevuto!" });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnesso:", socket.id);
+  });
+});
+
+server.listen(8080, () => {
   console.log("Server is running on port 8080");
 });
