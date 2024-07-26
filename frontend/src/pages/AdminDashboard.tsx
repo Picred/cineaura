@@ -20,7 +20,7 @@ const AdminDashboard = () => {
               <h1 className="text-2xl md:text-4xl font-bold mb-4 text-error">
                 Access Denied
               </h1>
-              <p className="text-lg md:text-xl text-secondary">
+              <p className="text-lg md:text-xl text-info">
                 You are not an Administrator.
               </p>
             </div>
@@ -30,14 +30,22 @@ const AdminDashboard = () => {
 
       {auth.isAdmin && (
         <>
-          <h1 className="relative text-4xl font-bold text-center text-primary">
+          <h1 className="text-3xl font-bold text-center mb-8 text-secondary">
             Admin Dashboard
           </h1>
-          <div className="divider divider-primary"></div>
-
-          <div className="flex flex-col md:flex-row gap-3 px-4 ">
-            <AddNewFilm />
-            <FilmTable films={films.films} />
+          <div className="flex flex-wrap gap-3 justify-center px-4">
+            <div className="w-full max-w-3xl">
+              <h2 className="text-lg font-bold text-center mb-4 text-secondary">
+                Add film
+              </h2>
+              <AddNewFilm />
+            </div>
+            <div className="w-full max-w-3xl">
+              <h2 className="text-lg font-bold text-center mb-4 text-secondary">
+                Films on DB
+              </h2>
+              <FilmTable films={films.films} />
+            </div>
           </div>
         </>
       )}

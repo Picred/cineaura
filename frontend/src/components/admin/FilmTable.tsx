@@ -4,6 +4,7 @@ import { socket } from "../../utils/socket";
 
 export const FilmTable = ({ films }: { films: FilmType[] }) => {
   const navigate = useNavigate();
+
   const showDetails = (filmId: number) => {
     navigate(`/films/${filmId}`);
   };
@@ -11,8 +12,9 @@ export const FilmTable = ({ films }: { films: FilmType[] }) => {
   const deleteFilm = (filmId: number) => {
     socket.emit("deleteFilm", filmId);
   };
+
   return (
-    <div className="overflow-x-auto max-h-screen">
+    <div className="overflow-x-auto max-h-screen flex-grow">
       <table className="table bg-base-300 min-w-full">
         <thead>
           <tr>
@@ -50,7 +52,7 @@ export const FilmTable = ({ films }: { films: FilmType[] }) => {
                 </span>
               </td>
               <td className="p-2">{film.duration}</td>
-              <td className="p-2">
+              <td className="p-2 gap-1 flex">
                 <button
                   className="btn btn-info btn-xs"
                   onClick={() => showDetails(film.id)}

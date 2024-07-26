@@ -8,7 +8,7 @@ interface FilmStore {
   add(film: FilmType): Promise<void>;
   update(): Promise<void>;
   getFilm(id: number): FilmType | undefined;
-  // edit(film: FilmType): Promise<void>;
+  getTop10Films(): FilmType[]; // Aggiungi questo metodo
 }
 
 export const filmStore = create<FilmStore>((set, get) => ({
@@ -37,18 +37,15 @@ export const filmStore = create<FilmStore>((set, get) => ({
       console.error("Failed to fetch films:", error);
     }
   },
+
   getFilm: (id: number) => {
     return get().films.find((film) => film.id === id);
   },
 
-  // edit: async (film: FilmType) => {
-  //   try {
-  //     await editFilm(film);
-  //     // Update the films list after editing a film
-  //     get().update();
-  //   } catch (error) {
-  //     console.error("Failed to edit film:", error);
-  //     throw error;
-  //   }
-  // }
+  getTop10Films: () => {
+    return get()
+      .films.slice()
+      .sort((a, b) => b.rating - a.rating) // Ordina i film per rating decrescente
+      .slice(0, 6);
+  },
 }));

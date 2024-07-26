@@ -4,7 +4,6 @@ import { Server } from "socket.io";
 import apiRouter from "./routes/api.route";
 import { generateKeys } from "./db/userOperations";
 import cors from "cors";
-import filmRouter from "./routes/films.route";
 import {
   getAllFilms,
   addFilm,
@@ -23,7 +22,6 @@ app.use(cors());
 generateKeys();
 
 app.use("/api", apiRouter);
-app.use("/api", filmRouter);
 
 const server = http.createServer(app);
 
