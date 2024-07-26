@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   addFilm,
   getAllFilms,
+  getFilmById,
   //   getFilmById,
   //   updateFilm,
   //   deleteFilm,

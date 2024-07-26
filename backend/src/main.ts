@@ -5,7 +5,12 @@ import apiRouter from "./routes/api.route";
 import { generateKeys } from "./db/userOperations";
 import cors from "cors";
 import filmRouter from "./routes/films.route";
-import { getAllFilms, addFilm, deleteFilm } from "./db/filmsOperations";
+import {
+  getAllFilms,
+  addFilm,
+  deleteFilm,
+  getFilmById,
+} from "./db/filmsOperations";
 
 export const app: Express = express();
 const cookieParser = require("cookie-parser");
@@ -60,6 +65,15 @@ io.on("connection", (socket) => {
       io.sockets.emit("update");
     } catch (error) {
       console.log("There was an error during deleting film: ", error);
+    }
+  });
+
+  socket.on("getFilmById", async (id, callback) => {
+    try {
+      const film = await getFilmById(id);
+      callback({ success: true, film });
+    } catch (error) {
+      callback({ success: false, message: (error as any).message });
     }
   });
 });

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import App from "../App";
+import Home from "../pages/Home";
 import AdminDashboard from "../pages/AdminDashboard";
 import FilmDetails from "../pages/FilmDetails";
 import Login from "../pages/Login";
@@ -11,7 +11,7 @@ import { socket } from "../utils/socket";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Home />,
   },
   {
     path: "/login",

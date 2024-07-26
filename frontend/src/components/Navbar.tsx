@@ -17,7 +17,11 @@ const Navbar = () => {
     <div className="navbar bg-neutral p-4">
       <div className="flex items-center justify-between w-full">
         <Link to="/">
-          <img src="/cineaura.svg" alt="CineAura Logo" className="w-12 h-12" />
+          <img
+            src="/cineaura.svg"
+            alt="CineAura Logo"
+            className="w-12 h-12 hover:scale-110 transition-transform"
+          />
         </Link>
 
         {auth.isAdmin && (

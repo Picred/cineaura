@@ -42,24 +42,36 @@ export const addFilm = async (film: FilmType): Promise<void> => {
 //   }
 // };
 
+// export const getFilmById = async (id: number): Promise<FilmType> => {
+//   return await fetch(`/api/films/${id}`, {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   })
+//     .then(async (response) => {
+//       if (!response.ok) {
+//         return response.json().then((error) => {
+//           return Promise.reject(error.msg || "Error fetching film!");
+//         });
+//       }
+//       return response.json();
+//     })
+//     .then((data: FilmType) => {
+//       return data;
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching film:", error);
+//       return Promise.reject(error);
+//     });
+// };
+
 export const getFilmById = async (id: number): Promise<FilmType> => {
-  return await fetch(`/api/films/${id}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  })
-    .then(async (response) => {
-      if (!response.ok) {
-        return response.json().then((error) => {
-          return Promise.reject(error.msg || "Error fetching film!");
-        });
+  return new Promise((resolve, reject) => {
+    socket.emit("getFilmById", id, (response: any) => {
+      if (response.success) {
+        resolve(response.film);
+      } else {
+        reject(new Error(response.message || "Error fetching film!"));
       }
-      return response.json();
-    })
-    .then((data: FilmType) => {
-      return data;
-    })
-    .catch((error) => {
-      console.error("Error fetching film:", error);
-      return Promise.reject(error);
     });
+  });
 };
