@@ -54,7 +54,9 @@ const FilmDetails = () => {
             {film.rating}
           </div>
           <p className="text-info text-lg mt-2">Description</p>
+          <div className="divider divider-info"></div>
           <p className="text-white text-lg mt-1">{film.description}</p>
+          <div className="divider divider-info"></div>
           <p className="text-info text-lg mt-2">Cast</p>
           <p className="text-white text-lg mt-1 mb-10">{film.cast}</p>
         </div>

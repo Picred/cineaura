@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-neutral text-neutral-content p-10">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+    <footer className="bg-neutral text-neutral-content p-4 md:p-10">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
         <aside className="flex flex-col items-center md:items-start">
           <Link to="/" className="flex items-center space-x-2">
             <img

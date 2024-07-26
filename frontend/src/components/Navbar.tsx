@@ -16,8 +16,8 @@ const Navbar = () => {
   return (
     <div className="navbar bg-neutral p-4">
       <div className="flex items-center justify-between w-full">
-        <Link to="/" className="btn btn-primary text-xl">
-          CineAura
+        <Link to="/">
+          <img src="/cineaura.svg" alt="CineAura Logo" className="w-12 h-12" />
         </Link>
 
         {auth.isAdmin && (
@@ -29,7 +29,7 @@ const Navbar = () => {
         )}
 
         <div className="flex items-center gap-2">
-          <div className="join lg:flex lg:items-center">
+          {/* <div className="join lg:flex lg:items-center">
             <input
               className="input input-bordered join-item"
               placeholder="Search"
@@ -42,7 +42,7 @@ const Navbar = () => {
             >
               Search film
             </button>
-          </div>
+          </div> */}
 
           <div className="dropdown dropdown-end">
             <div
@@ -92,8 +92,8 @@ const Navbar = () => {
         </div>
 
         {auth.isAdmin && (
-          <div className="lg:hidden fixed bottom-4 right-4 z-50">
-            <Link to="/admin-dashboard" className="btn btn-secondary">
+          <div className="lg:hidden fixed bottom-4 left-4 z-50 ">
+            <Link to="/admin-dashboard" className="btn btn-info">
               Admin Dashboard
             </Link>
           </div>

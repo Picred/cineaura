@@ -8,8 +8,8 @@ const ThemeSwitcher = () => {
   const toggleTheme = () => {
     const theme = document.documentElement.getAttribute("data-theme");
     if (theme === "night") {
-      document.documentElement.setAttribute("data-theme", "nord");
-      setTheme("nord");
+      document.documentElement.setAttribute("data-theme", "winter");
+      setTheme("winter");
       auth.theme = "light";
     } else {
       document.documentElement.setAttribute("data-theme", "night");
@@ -28,7 +28,7 @@ const ThemeSwitcher = () => {
       />
 
       <svg
-        className="swap-off h-10 w-10 fill-current"
+        className="swap-off h-10 w-10 fill-warning"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -36,7 +36,7 @@ const ThemeSwitcher = () => {
       </svg>
 
       <svg
-        className="swap-on h-10 w-10 fill-current"
+        className="swap-on h-10 w-10 fill-secondary"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >

@@ -18,10 +18,12 @@ const Home = () => {
     <>
       <Navbar />
       <div className="container mx-auto px-4 py-6">
-        <h1 className="text-3xl font-bold text-center mb-8">Top 10 Films</h1>
+        <h1 className="text-3xl font-bold text-center mb-8 text-primary">
+          Top 10 Films
+        </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {films.films.map((film) => (
-            <div key={film.id} className="w-full">
+            <div key={film.id} className="w-full h-full flex">
               <FilmCard
                 id={film.id}
                 title={film.title}
@@ -31,6 +33,7 @@ const Home = () => {
                 cast={film.cast}
                 rating={film.rating}
                 img={film.img}
+                // className="w-64 h-96" // Imposta la larghezza a 64 e l'altezza a 96
               />
             </div>
           ))}
