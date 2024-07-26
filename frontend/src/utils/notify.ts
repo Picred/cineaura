@@ -1,6 +1,7 @@
 import { toast, ToastPosition } from "react-toastify";
 
 export function notify(message: string, type: string, theme: string) {
+  theme = theme === "light" ? "light" : "dark";
   const toastOptions = {
     position: "bottom-right" as ToastPosition,
     autoClose: 2000,

@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import {
-  createFilm,
+  addFilm,
   getAllFilms,
-  getFilmById,
   //   getFilmById,
   //   updateFilm,
   //   deleteFilm,
@@ -14,7 +13,7 @@ const filmRouter = express.Router();
 // Create a new Film
 filmRouter.post("/films", async (req: Request, res: Response) => {
   try {
-    await createFilm(req.body);
+    await addFilm(req.body);
     res.status(201).send({ msg: "Movie created." });
   } catch (error) {
     res.status(500).send({ msg: "Error creating movie.", error });
@@ -32,18 +31,18 @@ filmRouter.get("/films", async (req: Request, res: Response) => {
 });
 
 // Get a movie by ID
-filmRouter.get("/films/:id", async (req: Request, res: Response) => {
-  try {
-    const film = await getFilmById(Number(req.params.id));
-    if (film) {
-      res.send(film);
-    } else {
-      res.status(404).send({ msg: "Film not found." });
-    }
-  } catch (error) {
-    res.status(500).send({ msg: "Error retrieving film.", error });
-  }
-});
+// filmRouter.get("/films/:id", async (req: Request, res: Response) => {
+//   try {
+//     const film = await getFilmById(Number(req.params.id));
+//     if (film) {
+//       res.send(film);
+//     } else {
+//       res.status(404).send({ msg: "Film not found." });
+//     }
+//   } catch (error) {
+//     res.status(500).send({ msg: "Error retrieving film.", error });
+//   }
+// });
 
 // // Update a movie by ID
 // filmRouter.put("/movies/:id", async (req: Request, res: Response) => {

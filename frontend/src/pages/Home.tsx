@@ -5,6 +5,7 @@ import { authStore } from "../zustand/AuthStore";
 import { filmStore } from "../zustand/filmStore";
 import FilmCard from "../components/FilmCard";
 import { useEffect } from "react";
+import { socket } from "../utils/socket";
 
 const Home = () => {
   const auth = useStore(authStore);
@@ -12,6 +13,7 @@ const Home = () => {
 
   useEffect(() => {
     films.update();
+    socket.on("update", films.update);
   }, []);
 
   return (
@@ -21,7 +23,7 @@ const Home = () => {
         <h1 className="text-3xl font-bold text-center mb-8 text-primary">
           Top 10 Films
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
           {films.films.map((film) => (
             <div key={film.id} className="w-full h-full flex">
               <FilmCard
@@ -33,7 +35,6 @@ const Home = () => {
                 cast={film.cast}
                 rating={film.rating}
                 img={film.img}
-                // className="w-64 h-96" // Imposta la larghezza a 64 e l'altezza a 96
               />
             </div>
           ))}

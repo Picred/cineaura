@@ -22,7 +22,7 @@ export const authStore = create<AuthStore>((set) => ({
   login: (params: LoginParams) =>
     loginUser(params)
       .then((result) => {
-        set({ username: params.username, isAdmin: result.isAdmin });
+        set({ username: params.username, isAdmin: Boolean(result.isAdmin) });
       })
       .catch((error) => {
         throw error;

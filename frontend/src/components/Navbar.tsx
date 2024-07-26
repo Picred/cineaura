@@ -8,10 +8,10 @@ const Navbar = () => {
   const auth = useStore(authStore);
   const [searchFilm, setSearchFilm] = useState("");
 
-  const handleSearchFilm = () => {
-    setSearchFilm("");
-    //TODO: get film by name
-  };
+  // const handleSearchFilm = () => {
+  //   setSearchFilm("");
+  //   //TODO: get film by name
+  // };
 
   return (
     <div className="navbar bg-neutral p-4">

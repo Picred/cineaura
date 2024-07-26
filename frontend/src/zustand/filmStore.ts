@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { getAllFilms, addFilm } from "../api/film.api";
 import { FilmType } from "../types/FilmType";
+import { notify } from "../utils/notify";
 
 interface FilmStore {
   films: FilmType[];
@@ -16,7 +17,12 @@ export const filmStore = create<FilmStore>((set, get) => ({
   add: async (film: FilmType) => {
     try {
       await addFilm(film);
-      get().update();
+      notify(
+        "Film added successfully",
+        "success",
+        String(document.documentElement.getAttribute("data-theme"))
+      );
+      get().update(); // TODO: array.push() instead of fetching all films
     } catch (error) {
       console.error("Failed to add film:", error);
       throw error;

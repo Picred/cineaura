@@ -6,7 +6,7 @@ import AdminDashboard from "../pages/AdminDashboard";
 import FilmDetails from "../pages/FilmDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import socket from "../utils/socket";
+import { socket } from "../utils/socket";
 
 const router = createBrowserRouter([
   {
@@ -38,22 +38,16 @@ const router = createBrowserRouter([
 const Root = () => {
   useEffect(() => {
     socket.on("connect", () => {
-      console.log("Connesso al server socket:", socket.id);
+      console.log(`Connected to server socket [${socket.id}]`);
     });
 
     socket.on("disconnect", () => {
-      console.log("Disconnesso dal server socket");
-    });
-
-    // Esempio di ricezione di un evento dal server
-    socket.on("messaggio", (data) => {
-      console.log("Messaggio ricevuto:", data);
+      console.log(`Disconneted from server socket [${socket.id}]`);
     });
 
     return () => {
       socket.off("connect");
       socket.off("disconnect");
-      socket.off("messaggio");
     };
   }, []);
 

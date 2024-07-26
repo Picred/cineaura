@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
 import { filmStore } from "../zustand/filmStore";
+import { socket } from "../utils/socket";
 const FilmCard = ({
   id,
   title,
@@ -22,7 +23,7 @@ const FilmCard = ({
   };
 
   const deleteFilm = (filmId: number) => {
-    console.log("DELETE:", filmId);
+    socket.emit("deleteFilm", filmId);
   };
 
   return (
@@ -36,10 +37,10 @@ const FilmCard = ({
       </figure>
       <div className="card-body w-full md:w-2/3 p-4 flex flex-col ">
         <div className="flex-grow mb-4">
-          <h2 className="card-title lg:text-4xl md:text-xl mb-2 ">{title}</h2>
+          <h2 className="card-title lg:text-3xl md:text-xl mb-2 ">{title}</h2>
           {/* <p className="mb-1">Release year: {release_year}</p> */}
           <p className="mb-1">Duration: {duration} minutes</p>
-          {/* <p className="mb-1">Genre: {genre}</p> */}
+          <p className="mb-1">Genre: {genre}</p>
           {/* <p className="mb-1">Cast: {cast}</p> */}
           {/* <p className="mb-1">Rating: {rating}</p> */}
         </div>

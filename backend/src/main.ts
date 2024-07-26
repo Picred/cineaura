@@ -5,6 +5,7 @@ import apiRouter from "./routes/api.route";
 import { generateKeys } from "./db/userOperations";
 import cors from "cors";
 import filmRouter from "./routes/films.route";
+import { getAllFilms, addFilm, deleteFilm } from "./db/filmsOperations";
 
 export const app: Express = express();
 const cookieParser = require("cookie-parser");
@@ -19,27 +20,47 @@ generateKeys();
 app.use("/api", apiRouter);
 app.use("/api", filmRouter);
 
-// Creazione del server HTTP
 const server = http.createServer(app);
 
-// Inizializzazione di socket.io
 const io = new Server(server, {
   cors: {
     origin: "*",
   },
 });
 
-// Gestione degli eventi di socket.io
 io.on("connection", (socket) => {
-  console.log("Un client si è connesso:", socket.id);
-
-  socket.on("messaggio", (data) => {
-    console.log("Messaggio ricevuto:", data);
-    socket.emit("risposta", { message: "Messaggio ricevuto!" });
-  });
+  console.log(`New socket client [ ${socket.id} ] connected`);
 
   socket.on("disconnect", () => {
-    console.log("Client disconnesso:", socket.id);
+    console.log(`Client [${socket.id}] disconnected`);
+  });
+
+  socket.on("getAllFilms", async (callback) => {
+    try {
+      const films = await getAllFilms();
+      callback({ success: true, films });
+    } catch (error) {
+      callback({ success: false, message: (error as any).message });
+    }
+  });
+
+  socket.on("addFilm", async (film, callback) => {
+    try {
+      await addFilm(film);
+      io.sockets.emit("update");
+      callback({ success: true });
+    } catch (error) {
+      callback({ success: false, message: (error as any).message });
+    }
+  });
+
+  socket.on("deleteFilm", async (id) => {
+    try {
+      await deleteFilm(id);
+      io.sockets.emit("update");
+    } catch (error) {
+      console.log("There was an error during deleting film: ", error);
+    }
   });
 });
 

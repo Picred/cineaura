@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { FilmType } from "../types/FilmType";
 import { useState, useEffect } from "react";
 import { getFilmById } from "../api/film.api";
+import { socket } from "../utils/socket";
 
 const FilmDetails = () => {
   const [film, setFilm] = useState<FilmType>({} as FilmType);
@@ -19,31 +20,35 @@ const FilmDetails = () => {
           console.error("Error fetching film:", error);
         });
     }
-  }, []);
+  }, [filmId]);
 
   return (
     <>
       <Navbar />
       <div className="relative">
-        <img src={film.img} className="h-96 w-full object-cover" alt="" />
+        <img
+          src={film.img}
+          className="h-96 w-full object-cover"
+          alt={film.title}
+        />
       </div>
-      <div className="container mx-auto grid grid-cols-12 gap-16 ">
-        <div className="flex flex-col gap-4 col-span-12 md:col-span-4 lg:col-span-3">
-          <div className="relative h-48">
+      <div className="container mx-auto grid grid-cols-1 gap-6 px-4 md:grid-cols-12 md:gap-16">
+        <div className="flex flex-col gap-4 col-span-1 md:col-span-4 lg:col-span-3">
+          <div className="relative h-48 md:h-96">
             <div className="absolute bottom-0 w-full">
               <img
                 src={film.img}
-                className=" rounded mx-auto max-h-60 sm:max-h-96"
-                alt=""
+                className="rounded mx-auto max-h-60 sm:max-h-96"
+                alt={film.title}
               />
             </div>
           </div>
         </div>
-        <div className="col-span-12 md:col-span-8 lg:col-span-9 ">
-          <h1 className="text-6xl font-bold">
+        <div className="col-span-1 md:col-span-8 lg:col-span-9">
+          <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold">
             {film.title} ({film.release_year})
           </h1>
-          <p className=" text-lg mt-2">
+          <p className="text-md md:text-lg mt-2">
             {film.genre} | {film.duration} minutes
           </p>
           <div
@@ -53,15 +58,14 @@ const FilmDetails = () => {
           >
             {film.rating}
           </div>
-          <p className=" text-lg mt-2">Description</p>
+          <p className="text-md md:text-lg mt-2">Description</p>
           <div className="divider divider-primary"></div>
-          <p className=" text-lg mt-1">{film.description}</p>
+          <p className="text-md md:text-lg mt-1">{film.description}</p>
           <div className="divider divider-primary"></div>
-          <p className=" text-lg mt-2">Cast</p>
-          <p className=" text-lg mt-1 mb-10">{film.cast}</p>
+          <p className="text-md md:text-lg mt-2">Cast</p>
+          <p className="text-md md:text-lg mt-1 mb-10">{film.cast}</p>
         </div>
       </div>
-
       <Footer />
     </>
   );

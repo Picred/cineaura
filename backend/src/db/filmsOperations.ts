@@ -16,7 +16,7 @@ export async function getAllFilms(): Promise<FilmType[] | undefined> {
   }
 }
 
-export async function createFilm(film: FilmType): Promise<void> {
+export async function addFilm(film: FilmType): Promise<void> {
   const sql =
     "INSERT INTO films (title, release_year, duration, genre, description, cast, rating, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -36,16 +36,27 @@ export async function createFilm(film: FilmType): Promise<void> {
   }
 }
 
-export async function getFilmById(id: number): Promise<FilmType | undefined> {
-  const sql = "SELECT * FROM films WHERE id = ?";
+// export async function getFilmById(id: number): Promise<FilmType | undefined> {
+//   const sql = "SELECT * FROM films WHERE id = ?";
+
+//   try {
+//     const [results] = await conn.query<FilmType[] & RowDataPacket[]>(sql, [id]);
+
+//     if (results.length) {
+//       return results[0];
+//     }
+//   } catch (err) {
+//     throw err;
+//   }
+// }
+
+export async function deleteFilm(filmId: number): Promise<void> {
+  const sql = "DELETE FROM films WHERE id = ?";
 
   try {
-    const [results] = await conn.query<FilmType[] & RowDataPacket[]>(sql, [id]);
-
-    if (results.length) {
-      return results[0];
-    }
+    await conn.execute(sql, [filmId]);
   } catch (err) {
-    throw err;
+    console.log(err); // TODO: handle error without app crash
+    // throw err;
   }
 }
