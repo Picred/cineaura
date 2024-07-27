@@ -65,7 +65,7 @@ export const ScheduleCard = ({
 
   return (
     <>
-      <div className="relative group bg-base-100 w-64 image-full shadow-2xl">
+      <div className="relative group bg-base-100 w-64 image-full min-h-44 shadow-2xl">
         <figure>
           <img
             src={film?.img}
@@ -74,7 +74,9 @@ export const ScheduleCard = ({
           />
         </figure>
         <div className="absolute inset-0 bg-gray-900 bg-opacity-70 flex flex-col justify-center items-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <h2 className="text-xl font-bold">{film?.title}</h2>
+          <h2 className="text-xl font-bold truncate max-w-full">
+            {film?.title}
+          </h2>
           <p className="mt-2 text-wrap">{formatIsoDate(schedule_datetime)}</p>
           <div className="mt-4">
             <button className="btn btn-primary" onClick={handleBookNow}>

@@ -7,7 +7,7 @@ export function formatIsoDate(isoDate: string): string {
   const date = new Date(isoDate);
 
   const options: Intl.DateTimeFormatOptions = {
-    weekday: "long",
+    // weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",

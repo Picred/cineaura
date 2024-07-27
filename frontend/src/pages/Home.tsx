@@ -29,7 +29,7 @@ const Home = () => {
           🕗 Schedules
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-          {films.schedule.map((schedule) => (
+          {films.schedule?.map((schedule) => (
             <div key={schedule.id} className="w-full h-full flex">
               <ScheduleCard
                 id={schedule.id}

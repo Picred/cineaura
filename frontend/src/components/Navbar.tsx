@@ -2,8 +2,9 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { Link } from "react-router-dom";
 import { authStore } from "../zustand/AuthStore";
 import { useStore } from "zustand";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { filmStore } from "../zustand/filmStore";
+import { formatIsoDate } from "../utils/isoDate";
 
 const Navbar = () => {
   const auth = useStore(authStore);
@@ -33,28 +34,46 @@ const Navbar = () => {
         )}
 
         <div className="flex items-center gap-3">
-          <div className="dropdown dropdown-bottom">
+          <div className="dropdown dropdown-end flex-col items-center justify-center">
             <div tabIndex={0}>
-              <button className="btn">
+              <button className="btn btn-secondary text-lg">
                 Tickets
-                <div className="badge badge-secondary">{numberOfTickets}</div>
+                <div className="badge badge-secondary-content">
+                  {numberOfTickets}
+                </div>
               </button>
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-72 p-3 shadow"
             >
               <li>
-                <p className="font-bold text-xl">All my Tickets</p>
+                <p className="font-bold text-lg justify-center">
+                  All my Tickets
+                </p>
                 <div className="divider"></div>
               </li>
-              {allTickets?.map((ticket) => (
-                <li key={ticket.id}>
-                  <p>
-                    {ticket.film_id} - {films.getFilm(ticket.film_id)?.title}
-                  </p>
-                </li>
-              ))}
+              <div className="overflow-y-scroll max-h-screen">
+                {allTickets?.map((ticket) => (
+                  <li
+                    key={ticket.id}
+                    className="m-2 hover:bg-primary hover:text-primary-content outline outline-secondary rounded-btn"
+                  >
+                    <div className="flex justify-between items-center">
+                      <p className="truncate max-w-24">
+                        {films.getFilm(ticket.film_id)?.title}
+                      </p>
+                      <p className="font-bold text-md w-1/3 text-right ">
+                        {formatIsoDate(
+                          films.schedule.find(
+                            (s) => s.id === ticket.schedule_id
+                          )?.schedule_datetime as string
+                        )}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </div>
             </ul>
           </div>
 

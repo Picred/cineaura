@@ -18,7 +18,7 @@ const FilmCard = ({ id, title, duration, genre, img }: FilmType) => {
     socket.emit("deleteFilm", filmId);
   };
   return (
-    <div className="card bg-base-300 shadow-xl flex flex-col md:flex-row items-stretch ">
+    <div className="card bg-base-300 shadow-xl flex flex-col md:flex-row items-stretch">
       <figure className="w-full md:w-1/3 flex-shrink-0 flex items-center justify-center">
         <img
           src={img}
@@ -26,7 +26,7 @@ const FilmCard = ({ id, title, duration, genre, img }: FilmType) => {
           className="w-full h-full object-content"
         />
       </figure>
-      <div className="card-body w-full md:w-2/3 p-4 flex flex-col ">
+      <div className="card-body w-full lg:max-w-96 max-w-80 text-balance truncate lg:truncate md:w-2/3 p-4 flex flex-col ">
         <div className="flex-grow mb-4">
           <h2 className="card-title lg:text-3xl md:text-xl mb-2 ">{title}</h2>
           <p className="mb-1">Duration: {duration} minutes</p>
