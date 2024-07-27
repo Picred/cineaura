@@ -50,6 +50,7 @@ export const ScheduleCard = ({
         };
 
         await films.addTicket(ticketData);
+        films.updateTickets(auth.username);
       } catch (error) {
         console.error("Failed to book ticket:", error);
         notify("Failed to book ticket. Please try again.", "error", auth.theme);
