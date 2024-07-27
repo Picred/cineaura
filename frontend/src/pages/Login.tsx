@@ -5,11 +5,12 @@ import { useState } from "react";
 import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
 import { notify } from "../utils/notify";
+import { filmStore } from "../zustand/filmStore";
 
 const Login = () => {
   const auth = useStore(authStore);
   const navigate = useNavigate();
-
+  const films = useStore(filmStore);
   const [user, setUser] = useState({ username: "", password: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,6 +22,7 @@ const Login = () => {
         .login({ username: user.username, password: user.password })
         .then(() => {
           notify("Successfully logged in!", "success", auth.theme as string);
+          films.updateTickets(user.username);
           navigate("/");
         })
         .catch((error) => {

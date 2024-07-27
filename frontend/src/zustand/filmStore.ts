@@ -24,7 +24,7 @@ interface FilmStore {
   updateSchedule(): Promise<void>;
   addSchedule(schedule: ScheduleType): Promise<void>;
   addTicket(ticket: TicketType): Promise<void>;
-  updateTickets(): Promise<void>;
+  updateTickets(username: string): Promise<void>;
 }
 
 export const filmStore = create<FilmStore>((set, get) => ({
@@ -99,16 +99,16 @@ export const filmStore = create<FilmStore>((set, get) => ({
         "success",
         String(document.documentElement.getAttribute("data-theme"))
       );
-      get().updateTickets();
+      // get().updateTickets();
     } catch (error) {
       console.error("Failed to book ticket:", error);
       // throw error;
     }
   },
 
-  updateTickets: async () => {
+  updateTickets: async (username: string) => {
     try {
-      const tickets = await getTickets();
+      const tickets = await getTickets(username);
       set({ tickets });
     } catch (error) {
       console.error("Failed to fetch tickets:", error);

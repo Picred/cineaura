@@ -2,16 +2,16 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { Link } from "react-router-dom";
 import { authStore } from "../zustand/AuthStore";
 import { useStore } from "zustand";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { filmStore } from "../zustand/filmStore";
 
 const Navbar = () => {
   const auth = useStore(authStore);
   const [searchFilm, setSearchFilm] = useState("");
+  const films = useStore(filmStore);
+  const allTickets = films.tickets;
 
-  // const handleSearchFilm = () => {
-  //   setSearchFilm("");
-  //   //TODO: get film by name
-  // };
+  const numberOfTickets = films.tickets?.length ? films.tickets.length : 0;
 
   return (
     <div className="navbar bg-neutral p-4">
@@ -32,21 +32,31 @@ const Navbar = () => {
           </div>
         )}
 
-        <div className="flex items-center gap-2">
-          {/* <div className="join lg:flex lg:items-center">
-            <input
-              className="input input-bordered join-item"
-              placeholder="Search"
-              value={searchFilm}
-              onChange={(e) => setSearchFilm(e.target.value)}
-            />
-            <button
-              className="btn btn-outline join-item rounded-lg"
-              onClick={handleSearchFilm}
+        <div className="flex items-center gap-3">
+          <div className="dropdown dropdown-bottom">
+            <div tabIndex={0}>
+              <button className="btn">
+                Tickets
+                <div className="badge badge-secondary">{numberOfTickets}</div>
+              </button>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              Search film
-            </button>
-          </div> */}
+              <li>
+                <p className="font-bold text-xl">All my Tickets</p>
+                <div className="divider"></div>
+              </li>
+              {allTickets?.map((ticket) => (
+                <li key={ticket.id}>
+                  <p>
+                    {ticket.film_id} - {films.getFilm(ticket.film_id)?.title}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="dropdown dropdown-end">
             <div
@@ -82,7 +92,10 @@ const Navbar = () => {
                   <Link to={"/"}>
                     <span
                       className="justify-between"
-                      onClick={() => auth.logout()}
+                      onClick={() => {
+                        auth.logout();
+                        films.tickets = [];
+                      }}
                     >
                       Logout
                     </span>
@@ -91,7 +104,6 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-
           <ThemeSwitcher />
         </div>
 

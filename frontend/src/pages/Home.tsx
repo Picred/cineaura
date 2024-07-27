@@ -15,11 +15,9 @@ const Home = () => {
   useEffect(() => {
     films.update();
     films.updateSchedule();
-    films.updateTickets();
     socket.on("update", () => {
       films.update();
       films.updateSchedule();
-      films.updateTickets();
     });
   }, []);
 

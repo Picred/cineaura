@@ -74,9 +74,9 @@ export const addTicket = async (ticket: TicketType): Promise<void> => {
   });
 };
 
-export const getTickets = async (): Promise<TicketType[]> => {
+export const getTickets = async (username: string): Promise<TicketType[]> => {
   return new Promise((resolve, reject) => {
-    socket.emit("getTickets", (response: any) => {
+    socket.emit("getTickets", username, (response: any) => {
       if (response.success) {
         resolve(response.tickets);
       } else {

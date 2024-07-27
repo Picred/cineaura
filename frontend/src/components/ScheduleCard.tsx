@@ -10,6 +10,7 @@ import { TicketType } from "../types/TicketType"; // Importa TicketType
 
 export const ScheduleCard = ({
   id,
+  film_title,
   film_id,
   schedule_datetime,
   capacity,

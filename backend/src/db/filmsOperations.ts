@@ -94,12 +94,16 @@ export async function addSchedule(schedule: ScheduleType): Promise<void> {
   }
 }
 
-export async function getTickets(): Promise<TicketType[] | undefined> {
-  const sql = "SELECT * FROM tickets";
+export async function getTickets(
+  username: string
+): Promise<TicketType[] | undefined> {
+  const sql =
+    "SELECT * FROM tickets WHERE user_id = (SELECT id FROM users WHERE username = ?)";
 
   try {
-    const [results] = await conn.query<TicketType[] & RowDataPacket[]>(sql);
-
+    const [results] = await conn.query<TicketType[] & RowDataPacket[]>(sql, [
+      username,
+    ]);
     if (results.length) {
       return results;
     }

@@ -100,9 +100,10 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("getTickets", async (callback) => {
+  socket.on("getTickets", async (username, callback) => {
     try {
-      const tickets = await getTickets();
+      const tickets = await getTickets(username);
+      io.sockets.emit("update");
       callback({ success: true, tickets });
     } catch (error) {
       callback({ success: false, message: (error as any).message });
