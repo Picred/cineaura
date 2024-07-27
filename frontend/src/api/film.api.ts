@@ -1,6 +1,7 @@
 import { FilmType } from "../types/FilmType";
 import { socket } from "../utils/socket";
 import { ScheduleType } from "../types/ScheduleType";
+import { TicketType } from "../types/TicketType";
 
 export const getAllFilms = async (): Promise<FilmType[]> => {
   return new Promise((resolve, reject) => {
@@ -57,6 +58,40 @@ export const addSchedule = async (schedule: ScheduleType): Promise<void> => {
         resolve();
       } else {
         reject(response.message || "Error adding schedule!");
+      }
+    });
+  });
+};
+export const addTicket = async (ticket: TicketType): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    socket.emit("addTicket", ticket, (response: any) => {
+      if (response.success) {
+        resolve();
+      } else {
+        reject(response.message || "Error adding ticket!");
+      }
+    });
+  });
+};
+
+export const getTickets = async (): Promise<TicketType[]> => {
+  return new Promise((resolve, reject) => {
+    socket.emit("getTickets", (response: any) => {
+      if (response.success) {
+        resolve(response.tickets);
+      } else {
+        reject(response.message || "Error fetching tickets!");
+      }
+    });
+  });
+};
+export const updateTicket = async (ticket: TicketType): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    socket.emit("updateTicket", ticket, (response: any) => {
+      if (response.success) {
+        resolve();
+      } else {
+        reject(response.message || "Error updating ticket!");
       }
     });
   });

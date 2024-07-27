@@ -7,6 +7,7 @@ import FilmDetails from "../pages/FilmDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { socket } from "../utils/socket";
+import { BookTicket } from "../pages/BookTicket";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/films/:id",
     element: <FilmDetails />,
+  },
+  {
+    path: "/booking",
+    element: <BookTicket />,
   },
   {
     path: "*",

@@ -23,7 +23,7 @@ export const loginUser = async (params: LoginParams) => {
       return response.json();
     })
     .then((data) => {
-      return { message: data.msg, isAdmin: data.isAdmin };
+      return { message: data.msg, isAdmin: data.isAdmin, userId: data.userId };
     })
     .catch((error) => {
       console.error("Error during login:", error);

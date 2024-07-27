@@ -39,7 +39,9 @@ export const FilmTable = ({ films }: { films: FilmType[] }) => {
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <div className="font-bold">{film.title}</div>
+                    <div className="font-bold">
+                      [{film.id}] {film.title}
+                    </div>
                     <div className="text-sm opacity-50">{film.genre}</div>
                   </div>
                 </div>

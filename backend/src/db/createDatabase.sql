@@ -33,6 +33,20 @@ CREATE TABLE IF NOT EXISTS schedule(
     FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS tickets;
+CREATE TABLE tickets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    film_id INT NOT NULL,
+    schedule_id INT NOT NULL,
+    purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    seat_number VARCHAR(10),
+    price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (film_id) REFERENCES films(id),
+    FOREIGN KEY (schedule_id) REFERENCES schedule(id)
+);
+
 INSERT INTO users (username, password, isAdmin) VALUES
 ('admin', 'admin', TRUE),
 ('user', 'user', FALSE);

@@ -1,5 +1,6 @@
 import { FilmType } from "../types/FilmType";
 import { ScheduleType } from "../types/ScheduleType";
+import { TicketType } from "../types/TicketType";
 import { conn } from "./index";
 import { RowDataPacket } from "mysql2/promise";
 
@@ -89,6 +90,39 @@ export async function addSchedule(schedule: ScheduleType): Promise<void> {
     ]);
   } catch (err) {
     console.error("Error adding schedule:", err);
+    throw err;
+  }
+}
+
+export async function getTickets(): Promise<TicketType[] | undefined> {
+  const sql = "SELECT * FROM tickets";
+
+  try {
+    const [results] = await conn.query<TicketType[] & RowDataPacket[]>(sql);
+
+    if (results.length) {
+      return results;
+    }
+  } catch (err) {
+    console.error("Error fetching tickets:", err);
+    throw err;
+  }
+}
+
+export async function addTicket(ticket: TicketType): Promise<void> {
+  const sql =
+    "INSERT INTO tickets (user_id, film_id, schedule_id, seat_number, price) VALUES (?, ?, ?, ?, ?)";
+
+  try {
+    await conn.execute(sql, [
+      ticket.user_id,
+      ticket.film_id,
+      ticket.schedule_id,
+      ticket.seat_number,
+      ticket.price,
+    ]);
+  } catch (err) {
+    console.error("Error adding ticket:", err);
     throw err;
   }
 }

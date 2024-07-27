@@ -8,6 +8,7 @@ import {
 
 interface AuthStore {
   username: string;
+  userId: number | null;
   isAdmin: boolean;
   theme: string;
   login(params: LoginParams): Promise<void>;
@@ -17,12 +18,17 @@ interface AuthStore {
 
 export const authStore = create<AuthStore>((set) => ({
   username: "",
+  userId: null,
   theme: "dark",
   isAdmin: false,
   login: (params: LoginParams) =>
     loginUser(params)
       .then((result) => {
-        set({ username: params.username, isAdmin: Boolean(result.isAdmin) });
+        set({
+          username: params.username,
+          userId: result.userId,
+          isAdmin: Boolean(result.isAdmin),
+        });
       })
       .catch((error) => {
         throw error;
@@ -37,6 +43,6 @@ export const authStore = create<AuthStore>((set) => ({
       }),
   logout: () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    set({ username: "", isAdmin: false });
+    set({ username: "", userId: null, isAdmin: false });
   },
 }));

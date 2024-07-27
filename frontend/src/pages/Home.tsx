@@ -15,9 +15,11 @@ const Home = () => {
   useEffect(() => {
     films.update();
     films.updateSchedule();
+    films.updateTickets();
     socket.on("update", () => {
       films.update();
       films.updateSchedule();
+      films.updateTickets();
     });
   }, []);
 
@@ -28,7 +30,7 @@ const Home = () => {
         <h1 className="text-3xl font-bold text-center mb-8 text-primary">
           🕗 Schedules
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
           {films.schedule.map((schedule) => (
             <div key={schedule.id} className="w-full h-full flex">
               <ScheduleCard

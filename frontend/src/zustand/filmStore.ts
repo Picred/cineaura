@@ -1,16 +1,21 @@
+// zustand/filmStore.ts
 import { create } from "zustand";
 import {
   getAllFilms,
   addFilm,
   getSchedule,
   addSchedule,
+  addTicket,
+  getTickets,
 } from "../api/film.api";
 import { FilmType } from "../types/FilmType";
 import { notify } from "../utils/notify";
 import { ScheduleType } from "../types/ScheduleType";
+import { TicketType } from "../types/TicketType";
 
 interface FilmStore {
   films: FilmType[];
+  tickets: TicketType[];
   add(film: FilmType): Promise<void>;
   update(): Promise<void>;
   getFilm(id: number): FilmType | undefined;
@@ -18,11 +23,14 @@ interface FilmStore {
   schedule: ScheduleType[];
   updateSchedule(): Promise<void>;
   addSchedule(schedule: ScheduleType): Promise<void>;
+  addTicket(ticket: TicketType): Promise<void>;
+  updateTickets(): Promise<void>;
 }
 
 export const filmStore = create<FilmStore>((set, get) => ({
   films: [],
   schedule: [],
+  tickets: [],
 
   add: async (film: FilmType) => {
     try {
@@ -58,15 +66,16 @@ export const filmStore = create<FilmStore>((set, get) => ({
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 6);
   },
+
   updateSchedule: async () => {
     try {
       const schedule = await getSchedule();
       set({ schedule });
     } catch (error) {
       console.error("Failed to fetch schedule:", error);
-      // throw error;
     }
   },
+
   addSchedule: async (schedule: ScheduleType) => {
     try {
       await addSchedule(schedule);
@@ -79,6 +88,30 @@ export const filmStore = create<FilmStore>((set, get) => ({
     } catch (error) {
       console.error("Failed to add schedule:", error);
       throw error;
+    }
+  },
+
+  addTicket: async (ticket: TicketType) => {
+    try {
+      await addTicket(ticket);
+      notify(
+        "Ticket booked successfully",
+        "success",
+        String(document.documentElement.getAttribute("data-theme"))
+      );
+      get().updateTickets();
+    } catch (error) {
+      console.error("Failed to book ticket:", error);
+      // throw error;
+    }
+  },
+
+  updateTickets: async () => {
+    try {
+      const tickets = await getTickets();
+      set({ tickets });
+    } catch (error) {
+      console.error("Failed to fetch tickets:", error);
     }
   },
 }));

@@ -34,7 +34,11 @@ apiRouter.post("/user/auth/login", async (req: Request, res: Response) => {
         const token = signToken(user, keys.privateKey);
         res
           .cookie("token", token, cookieOptions)
-          .send({ msg: "User logged.", isAdmin: user.isAdmin });
+          .send({
+            msg: "User logged.",
+            isAdmin: user.isAdmin,
+            userId: user.id,
+          });
       } else {
         res.status(401).send({ msg: "Wrong password." });
       }
