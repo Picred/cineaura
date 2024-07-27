@@ -110,19 +110,37 @@ export async function getTickets(): Promise<TicketType[] | undefined> {
 }
 
 export async function addTicket(ticket: TicketType): Promise<void> {
-  const sql =
+  const insertTicketSql =
     "INSERT INTO tickets (user_id, film_id, schedule_id, seat_number, price) VALUES (?, ?, ?, ?, ?)";
+  const updateCapacitySql =
+    "UPDATE schedule SET capacity = capacity - 1 WHERE id = ? AND capacity > 0";
 
+  const connection = await conn.getConnection();
   try {
-    await conn.execute(sql, [
+    await connection.beginTransaction();
+
+    await connection.execute(insertTicketSql, [
       ticket.user_id,
       ticket.film_id,
       ticket.schedule_id,
       ticket.seat_number,
       ticket.price,
     ]);
+
+    const [result] = await connection.execute(updateCapacitySql, [
+      ticket.schedule_id,
+    ]);
+
+    if ((result as any).affectedRows === 0) {
+      throw new Error("No seats available or invalid schedule ID");
+    }
+
+    await connection.commit();
   } catch (err) {
+    await connection.rollback();
     console.error("Error adding ticket:", err);
     throw err;
+  } finally {
+    connection.release();
   }
 }
