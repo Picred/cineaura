@@ -1,4 +1,5 @@
 import { FilmType } from "../types/FilmType";
+import { ScheduleType } from "../types/ScheduleType";
 import { conn } from "./index";
 import { RowDataPacket } from "mysql2/promise";
 
@@ -58,5 +59,36 @@ export async function deleteFilm(filmId: number): Promise<void> {
   } catch (err) {
     console.log(err); // TODO: handle error without app crash
     // throw err;
+  }
+}
+
+export async function getSchedule(): Promise<ScheduleType[] | undefined> {
+  const sql = "SELECT * FROM schedule";
+
+  try {
+    const [results] = await conn.query<ScheduleType[] & RowDataPacket[]>(sql);
+
+    if (results.length) {
+      return results;
+    }
+  } catch (err) {
+    console.error("Error fetching schedule:", err);
+    throw err;
+  }
+}
+
+export async function addSchedule(schedule: ScheduleType): Promise<void> {
+  const sql =
+    "INSERT INTO schedule (film_id, schedule_datetime, capacity) VALUES (?, ?, ?)";
+
+  try {
+    await conn.execute(sql, [
+      schedule.film_id,
+      schedule.schedule_datetime,
+      schedule.capacity,
+    ]);
+  } catch (err) {
+    console.error("Error adding schedule:", err);
+    throw err;
   }
 }

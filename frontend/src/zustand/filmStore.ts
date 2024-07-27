@@ -1,18 +1,28 @@
 import { create } from "zustand";
-import { getAllFilms, addFilm } from "../api/film.api";
+import {
+  getAllFilms,
+  addFilm,
+  getSchedule,
+  addSchedule,
+} from "../api/film.api";
 import { FilmType } from "../types/FilmType";
 import { notify } from "../utils/notify";
+import { ScheduleType } from "../types/ScheduleType";
 
 interface FilmStore {
   films: FilmType[];
   add(film: FilmType): Promise<void>;
   update(): Promise<void>;
   getFilm(id: number): FilmType | undefined;
-  getTop10Films(): FilmType[]; // Aggiungi questo metodo
+  getTop10Films(): FilmType[];
+  schedule: ScheduleType[];
+  updateSchedule(): Promise<void>;
+  addSchedule(schedule: ScheduleType): Promise<void>;
 }
 
 export const filmStore = create<FilmStore>((set, get) => ({
   films: [],
+  schedule: [],
 
   add: async (film: FilmType) => {
     try {
@@ -45,7 +55,30 @@ export const filmStore = create<FilmStore>((set, get) => ({
   getTop10Films: () => {
     return get()
       .films.slice()
-      .sort((a, b) => b.rating - a.rating) // Ordina i film per rating decrescente
+      .sort((a, b) => b.rating - a.rating)
       .slice(0, 6);
+  },
+  updateSchedule: async () => {
+    try {
+      const schedule = await getSchedule();
+      set({ schedule });
+    } catch (error) {
+      console.error("Failed to fetch schedule:", error);
+      // throw error;
+    }
+  },
+  addSchedule: async (schedule: ScheduleType) => {
+    try {
+      await addSchedule(schedule);
+      notify(
+        "Schedule added successfully",
+        "success",
+        String(document.documentElement.getAttribute("data-theme"))
+      );
+      get().updateSchedule();
+    } catch (error) {
+      console.error("Failed to add schedule:", error);
+      throw error;
+    }
   },
 }));

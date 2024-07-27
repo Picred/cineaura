@@ -9,6 +9,8 @@ import {
   addFilm,
   deleteFilm,
   getFilmById,
+  getSchedule,
+  addSchedule,
 } from "./db/filmsOperations";
 
 export const app: Express = express();
@@ -72,6 +74,27 @@ io.on("connection", (socket) => {
       callback({ success: true, film });
     } catch (error) {
       callback({ success: false, message: (error as any).message });
+    }
+  });
+
+  socket.on("getSchedule", async (callback) => {
+    try {
+      const schedule = await getSchedule();
+      callback({ success: true, schedule });
+    } catch (error) {
+      console.error("Error fetching schedule:", error);
+      callback({ success: false, message: "Error fetching schedule" });
+    }
+  });
+
+  socket.on("addSchedule", async (schedule, callback) => {
+    try {
+      await addSchedule(schedule);
+      io.sockets.emit("update");
+      callback({ success: true });
+    } catch (error) {
+      console.error("Error adding schedule:", error);
+      callback({ success: false, message: "Error adding schedule" });
     }
   });
 });

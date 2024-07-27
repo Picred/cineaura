@@ -1,5 +1,6 @@
 import { FilmType } from "../types/FilmType";
 import { socket } from "../utils/socket";
+import { ScheduleType } from "../types/ScheduleType";
 
 export const getAllFilms = async (): Promise<FilmType[]> => {
   return new Promise((resolve, reject) => {
@@ -25,45 +26,6 @@ export const addFilm = async (film: FilmType): Promise<void> => {
   });
 };
 
-// export const editFilm = async (film: FilmType): Promise<void> => {
-//   if (!film.id) {
-//     throw new Error("Film ID is required for editing");
-//   }
-
-//   const response = await fetch(`/api/films/${film.id}`, {
-//     method: "PUT",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(film),
-//   });
-
-//   if (!response.ok) {
-//     const errorResponse = await response.json();
-//     throw new Error(errorResponse.msg || "Failed to edit film");
-//   }
-// };
-
-// export const getFilmById = async (id: number): Promise<FilmType> => {
-//   return await fetch(`/api/films/${id}`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//   })
-//     .then(async (response) => {
-//       if (!response.ok) {
-//         return response.json().then((error) => {
-//           return Promise.reject(error.msg || "Error fetching film!");
-//         });
-//       }
-//       return response.json();
-//     })
-//     .then((data: FilmType) => {
-//       return data;
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching film:", error);
-//       return Promise.reject(error);
-//     });
-// };
-
 export const getFilmById = async (id: number): Promise<FilmType> => {
   return new Promise((resolve, reject) => {
     socket.emit("getFilmById", id, (response: any) => {
@@ -71,6 +33,30 @@ export const getFilmById = async (id: number): Promise<FilmType> => {
         resolve(response.film);
       } else {
         reject(new Error(response.message || "Error fetching film!"));
+      }
+    });
+  });
+};
+
+export const getSchedule = async (): Promise<ScheduleType[]> => {
+  return new Promise((resolve, reject) => {
+    socket.emit("getSchedule", (response: any) => {
+      if (response.success) {
+        resolve(response.schedule);
+      } else {
+        reject(response.message || "Error fetching schedule!");
+      }
+    });
+  });
+};
+
+export const addSchedule = async (schedule: ScheduleType): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    socket.emit("addSchedule", schedule, (response: any) => {
+      if (response.success) {
+        resolve();
+      } else {
+        reject(response.message || "Error adding schedule!");
       }
     });
   });

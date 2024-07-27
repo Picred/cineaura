@@ -6,6 +6,7 @@ import { filmStore } from "../zustand/filmStore";
 import FilmCard from "../components/FilmCard";
 import { useEffect } from "react";
 import { socket } from "../utils/socket";
+import { ScheduleCard } from "../components/ScheduleCard";
 
 const Home = () => {
   const auth = useStore(authStore);
@@ -13,13 +14,33 @@ const Home = () => {
 
   useEffect(() => {
     films.update();
-    socket.on("update", films.update);
+    films.updateSchedule();
+    socket.on("update", () => {
+      films.update();
+      films.updateSchedule();
+    });
   }, []);
 
   return (
     <div className="bg-base-200">
       <Navbar />
       <div className="container mx-auto px-4 py-6">
+        <h1 className="text-3xl font-bold text-center mb-8 text-primary">
+          🕗 Schedules
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+          {films.schedule.map((schedule) => (
+            <div key={schedule.id} className="w-full h-full flex">
+              <ScheduleCard
+                id={schedule.id}
+                film_id={schedule.film_id}
+                schedule_datetime={schedule.schedule_datetime}
+                capacity={schedule.capacity}
+              />
+            </div>
+          ))}
+        </div>
+
         <h1 className="text-3xl font-bold text-center mb-8 text-primary">
           ⭐ Most rated films ⭐
         </h1>
@@ -40,6 +61,7 @@ const Home = () => {
           ))}
         </div>
       </div>
+
       <Footer />
     </div>
   );
