@@ -19,6 +19,9 @@ const Home = () => {
       films.update();
       films.updateSchedule();
     });
+    socket.on("updateTickets", () => {
+      films.updateTickets(auth.username);
+    });
   }, []);
 
   return (

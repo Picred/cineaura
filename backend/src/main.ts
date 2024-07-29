@@ -65,6 +65,7 @@ io.on("connection", (socket) => {
     try {
       await deleteFilm(id);
       io.sockets.emit("update");
+      io.sockets.emit("updateTickets");
     } catch (error) {
       console.log("There was an error during deleting film: ", error);
     }

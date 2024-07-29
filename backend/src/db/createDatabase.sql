@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS films (
     rating DECIMAL(3, 1),
     img VARCHAR(255) DEFAULT 'https://miro.medium.com/v2/resize:fit:720/format:webp/1*AC9frN1qFnn-I2JCycN8fw.png',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS schedule;
@@ -43,8 +44,8 @@ CREATE TABLE tickets (
     seat_number VARCHAR(10),
     price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (film_id) REFERENCES films(id),
-    FOREIGN KEY (schedule_id) REFERENCES schedule(id)
+    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE,
+    FOREIGN KEY (schedule_id) REFERENCES schedule(id) ON DELETE CASCADE
 );
 
 INSERT INTO users (username, password, isAdmin) VALUES
