@@ -96,3 +96,15 @@ export const updateTicket = async (ticket: TicketType): Promise<void> => {
     });
   });
 };
+
+export const deleteTicket = async (id: number): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    socket.emit("deleteTicket", id, (response: any) => {
+      if (response.success) {
+        resolve();
+      } else {
+        reject(response.message || "Error deleting ticket!");
+      }
+    });
+  });
+};

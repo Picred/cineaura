@@ -39,14 +39,6 @@ const Home = () => {
     socket.on("nowPlayingEnd", () => {
       nowPlaying.reset();
     });
-
-    // // Cleanup on component unmount
-    // return () => {
-    //   socket.off("update");
-    //   socket.off("updateTickets");
-    //   socket.off("nowPlayingStart");
-    //   socket.off("nowPlayingEnd");
-    // };
   }, []);
 
   return (

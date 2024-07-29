@@ -7,6 +7,7 @@ import {
   addSchedule,
   addTicket,
   getTickets,
+  deleteTicket,
 } from "../api/film.api";
 import { FilmType } from "../types/FilmType";
 import { notify } from "../utils/notify";
