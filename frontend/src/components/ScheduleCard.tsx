@@ -6,7 +6,8 @@ import { formatIsoDate } from "../utils/isoDate";
 import { authStore } from "../zustand/AuthStore";
 import { notify } from "../utils/notify";
 import { useNavigate } from "react-router-dom";
-import { TicketType } from "../types/TicketType"; // Importa TicketType
+import { TicketType } from "../types/TicketType";
+import { socket } from "../utils/socket";
 
 export const ScheduleCard = ({
   id,
@@ -63,6 +64,10 @@ export const ScheduleCard = ({
     modal?.close();
   };
 
+  const deleteSchedule = async () => {
+    socket.emit("deleteSchedule", id);
+  };
+
   return (
     <>
       <div className="relative group bg-base-100 w-64 image-full min-h-44 shadow-2xl">
@@ -82,6 +87,14 @@ export const ScheduleCard = ({
             <button className="btn btn-primary" onClick={handleBookNow}>
               Book Now
             </button>
+            {auth.isAdmin && (
+              <button
+                className="btn btn-error lg:ml-1"
+                onClick={deleteSchedule}
+              >
+                Delete Schedule
+              </button>
+            )}
           </div>
         </div>
       </div>

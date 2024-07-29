@@ -94,11 +94,22 @@ export async function addSchedule(schedule: ScheduleType): Promise<void> {
   }
 }
 
-export async function removeSchedule(schedule: ScheduleType): Promise<void> {
+export async function removeSchedule(schedule: any): Promise<void> {
   const sql = "DELETE FROM schedule WHERE schedule_datetime = ?";
 
   try {
     await conn.execute(sql, [schedule.schedule_datetime]);
+  } catch (err) {
+    console.error("Error removing schedule:", err);
+    throw err;
+  }
+}
+
+export async function removeScheduleById(scheduleId: number): Promise<void> {
+  const sql = "DELETE FROM schedule WHERE id = ?";
+
+  try {
+    await conn.execute(sql, [scheduleId]);
   } catch (err) {
     console.error("Error removing schedule:", err);
     throw err;

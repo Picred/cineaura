@@ -14,7 +14,9 @@ import {
   getTickets,
   addTicket,
   removeSchedule,
+  removeScheduleById,
 } from "./db/filmsOperations";
+import { ScheduleType } from "./types/ScheduleType";
 
 export const app: Express = express();
 const cookieParser = require("cookie-parser");
@@ -123,6 +125,15 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("deleteSchedule", async (id, callback) => {
+    try {
+      console.log("devo eliminare: ", Number(id));
+      await removeScheduleById(id);
+      io.sockets.emit("update");
+    } catch (error) {
+      console.error("Error deleting schedule:", error);
+    }
+  });
   socket.on("getTickets", async (username, callback) => {
     try {
       const tickets = await getTickets(username);
