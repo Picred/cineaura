@@ -111,6 +111,7 @@ io.on("connection", (socket) => {
         setTimeout(() => {
           io.sockets.emit("nowPlayingEnd", film);
           removeSchedule(schedule);
+          io.sockets.emit("update");
         }, timeUntilEnd);
       }
 

@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { socket } from "../utils/socket";
 import { ScheduleCard } from "../components/ScheduleCard";
 import { nowPlayingStore } from "../zustand/nowPlayingStore";
+import { NowPlaying } from "../components/NowPlaying";
 
 const Home = () => {
   const auth = useStore(authStore);
@@ -26,12 +27,26 @@ const Home = () => {
     });
 
     socket.on("nowPlayingStart", (film) => {
-      nowPlaying.add(String(film.title), String(film.img));
+      const startTime = Date.now();
+      nowPlaying.add(
+        String(film.title),
+        String(film.img),
+        Number(film.duration),
+        startTime
+      );
     });
 
     socket.on("nowPlayingEnd", () => {
       nowPlaying.reset();
     });
+
+    // // Cleanup on component unmount
+    // return () => {
+    //   socket.off("update");
+    //   socket.off("updateTickets");
+    //   socket.off("nowPlayingStart");
+    //   socket.off("nowPlayingEnd");
+    // };
   }, []);
 
   return (
@@ -41,10 +56,11 @@ const Home = () => {
         <h1 className="text-3xl font-bold text-center mb-8 text-primary">
           ▶ Now Playing
         </h1>
-        <img
-          src="https://c4.wallpaperflare.com/wallpaper/922/383/695/coming-coming-soon-sign-text-wallpaper-preview.jpg"
-          className="w-full h-96 object-cover rounded-lg"
-        ></img>
+        <NowPlaying
+          title={nowPlaying.filmTitle}
+          img={nowPlaying.filmImg}
+          duration={nowPlaying.filmDuration}
+        />
 
         <h1 className="text-3xl font-bold text-center mb-8 text-primary">
           🕗 Schedules
