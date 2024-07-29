@@ -13,6 +13,7 @@ import {
   addSchedule,
   getTickets,
   addTicket,
+  removeSchedule,
 } from "./db/filmsOperations";
 
 export const app: Express = express();
@@ -104,13 +105,12 @@ io.on("connection", (socket) => {
         const timeUntilEnd = filmEndTime - now;
 
         setTimeout(() => {
-          io.sockets.emit("nowPlayingStart", { data: film });
-          console.log("nowPlayingStart event emitted");
+          io.sockets.emit("nowPlayingStart", film);
         }, timeUntilStart);
 
         setTimeout(() => {
-          io.sockets.emit("nowPlayingEnd", { data: film });
-          console.log("nowPlayingEnd event emitted");
+          io.sockets.emit("nowPlayingEnd", film);
+          removeSchedule(schedule);
         }, timeUntilEnd);
       }
 

@@ -7,10 +7,12 @@ import FilmCard from "../components/FilmCard";
 import { useEffect } from "react";
 import { socket } from "../utils/socket";
 import { ScheduleCard } from "../components/ScheduleCard";
+import { nowPlayingStore } from "../zustand/nowPlayingStore";
 
 const Home = () => {
   const auth = useStore(authStore);
   const films = useStore(filmStore);
+  const nowPlaying = useStore(nowPlayingStore);
 
   useEffect(() => {
     films.update();
@@ -23,12 +25,12 @@ const Home = () => {
       films.updateTickets(auth.username);
     });
 
-    socket.on("nowPlayingStart", (data) => {
-      console.log("Now Playing Start: ", data);
+    socket.on("nowPlayingStart", (film) => {
+      nowPlaying.add(String(film.title), String(film.img));
     });
 
     socket.on("nowPlayingEnd", () => {
-      console.log("Now Playing End");
+      nowPlaying.reset();
     });
   }, []);
 

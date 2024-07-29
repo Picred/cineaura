@@ -94,6 +94,17 @@ export async function addSchedule(schedule: ScheduleType): Promise<void> {
   }
 }
 
+export async function removeSchedule(schedule: ScheduleType): Promise<void> {
+  const sql = "DELETE FROM schedule WHERE schedule_datetime = ?";
+
+  try {
+    await conn.execute(sql, [schedule.schedule_datetime]);
+  } catch (err) {
+    console.error("Error removing schedule:", err);
+    throw err;
+  }
+}
+
 export async function getTickets(
   username: string
 ): Promise<TicketType[] | undefined> {

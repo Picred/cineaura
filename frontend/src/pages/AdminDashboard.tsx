@@ -6,10 +6,12 @@ import { authStore } from "../zustand/AuthStore";
 import { FilmTable } from "../components/admin/FilmTable";
 import { AddNewFilm } from "../components/admin/AddNewFilm";
 import { AddSchedule } from "../components/admin/AddSchedule";
+import { nowPlayingStore } from "../zustand/nowPlayingStore";
 
 const AdminDashboard = () => {
   const auth = useStore(authStore);
   const films = useStore(filmStore);
+  const nowPlaying = useStore(nowPlayingStore);
 
   return (
     <>
