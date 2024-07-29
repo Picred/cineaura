@@ -93,6 +93,27 @@ io.on("connection", (socket) => {
   socket.on("addSchedule", async (schedule, callback) => {
     try {
       await addSchedule(schedule);
+      const film = await getFilmById(schedule.film_id);
+
+      if (film) {
+        const scheduleTime = new Date(schedule.schedule_datetime).getTime();
+        const now = Date.now();
+        const filmDuration = film.duration * 60000;
+        const filmEndTime = scheduleTime + filmDuration;
+        const timeUntilStart = scheduleTime - now;
+        const timeUntilEnd = filmEndTime - now;
+
+        setTimeout(() => {
+          io.sockets.emit("nowPlayingStart", { data: film });
+          console.log("nowPlayingStart event emitted");
+        }, timeUntilStart);
+
+        setTimeout(() => {
+          io.sockets.emit("nowPlayingEnd", { data: film });
+          console.log("nowPlayingEnd event emitted");
+        }, timeUntilEnd);
+      }
+
       io.sockets.emit("update");
       callback({ success: true });
     } catch (error) {

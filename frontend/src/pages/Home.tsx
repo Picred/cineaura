@@ -22,12 +22,28 @@ const Home = () => {
     socket.on("updateTickets", () => {
       films.updateTickets(auth.username);
     });
+
+    socket.on("nowPlayingStart", (data) => {
+      console.log("Now Playing Start: ", data);
+    });
+
+    socket.on("nowPlayingEnd", () => {
+      console.log("Now Playing End");
+    });
   }, []);
 
   return (
     <div className="bg-base-200">
       <Navbar />
       <div className="container mx-auto px-4 py-6">
+        <h1 className="text-3xl font-bold text-center mb-8 text-primary">
+          ▶ Now Playing
+        </h1>
+        <img
+          src="https://c4.wallpaperflare.com/wallpaper/922/383/695/coming-coming-soon-sign-text-wallpaper-preview.jpg"
+          className="w-full h-96 object-cover rounded-lg"
+        ></img>
+
         <h1 className="text-3xl font-bold text-center mb-8 text-primary">
           🕗 Schedules
         </h1>
