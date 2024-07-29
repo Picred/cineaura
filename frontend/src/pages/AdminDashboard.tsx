@@ -7,6 +7,7 @@ import { FilmTable } from "../components/admin/FilmTable";
 import { AddNewFilm } from "../components/admin/AddNewFilm";
 import { AddSchedule } from "../components/admin/AddSchedule";
 import { nowPlayingStore } from "../zustand/nowPlayingStore";
+import { ScheduleTable } from "../components/admin/ScheduleTable";
 
 const AdminDashboard = () => {
   const auth = useStore(authStore);
@@ -49,6 +50,13 @@ const AdminDashboard = () => {
               </h2>
               <FilmTable films={films.films} />
             </div>
+            <div className="w-full max-w-lg">
+              <h2 className="text-lg font-bold text-center mb-4 text-secondary">
+                Schedules on DB
+              </h2>
+              <ScheduleTable schedule={films?.schedule} />
+            </div>
+
             <div className="w-full max-w-lg">
               <h2 className="text-lg font-bold text-center mb-4 text-secondary">
                 Add new schedule

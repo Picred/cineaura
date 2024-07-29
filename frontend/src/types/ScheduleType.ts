@@ -1,5 +1,5 @@
 export interface ScheduleType {
-  id?: number;
+  id: number;
   film_title?: string;
   film_id: number;
   schedule_datetime: string;

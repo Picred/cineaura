@@ -125,9 +125,8 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("deleteSchedule", async (id, callback) => {
+  socket.on("deleteSchedule", async (id) => {
     try {
-      console.log("devo eliminare: ", Number(id));
       await removeScheduleById(id);
       io.sockets.emit("update");
     } catch (error) {
