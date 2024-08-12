@@ -1,8 +1,12 @@
 import { socket } from "../../utils/socket";
 import { ScheduleType } from "../../types/ScheduleType";
 import { formatIsoDate } from "../../utils/isoDate";
+import { useStore } from "zustand";
+import { filmStore } from "../../zustand/filmStore";
 
 export const ScheduleTable = ({ schedule }: { schedule: ScheduleType[] }) => {
+  const films = useStore(filmStore);
+
   const deleteSchedule = (scheduleId: number) => {
     socket.emit("deleteSchedule", scheduleId);
   };
@@ -14,7 +18,7 @@ export const ScheduleTable = ({ schedule }: { schedule: ScheduleType[] }) => {
       <table className="table bg-base-300 min-w-full">
         <thead>
           <tr>
-            <th className="p-2">Film Title</th>
+            <th className="p-2">[id] Film title</th>
             <th className="p-2">Datetime</th>
             <th className="p-2"></th>
           </tr>
@@ -27,9 +31,11 @@ export const ScheduleTable = ({ schedule }: { schedule: ScheduleType[] }) => {
                   <div className="flex items-center gap-3">
                     <div className="flex flex-col">
                       <div className="font-bold">
-                        [{item.id}] {item.film_title}
+                        {films.getFilm(item.film_id)?.title}
                       </div>
-                      <div className="text-sm opacity-50">{item.capacity}</div>
+                      <div className="text-sm opacity-50">
+                        {item.capacity} available seats
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -54,9 +60,8 @@ export const ScheduleTable = ({ schedule }: { schedule: ScheduleType[] }) => {
         </tbody>
         <tfoot>
           <tr>
-            <th className="p-2">Title</th>
-            <th className="p-2">Release year</th>
-            <th className="p-2">Duration</th>
+            <th className="p-2">[id] Film title </th>
+            <th className="p-2">Datetime</th>
             <th className="p-2"></th>
           </tr>
         </tfoot>
