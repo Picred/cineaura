@@ -10,7 +10,7 @@ export const AddSchedule = () => {
     film_id: films.length > 0 ? films[0].id : 0,
     schedule_datetime: "",
     capacity: 50,
-  });
+  } as ScheduleType);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -29,9 +29,14 @@ export const AddSchedule = () => {
       film_id: films.length > 0 ? films[0].id : 0,
       schedule_datetime: "",
       capacity: 50,
-    });
+    } as ScheduleType);
   };
 
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 16);
+  };
   return (
     <form
       className="card bg-base-300 w-screen max-w-lg mx-auto shadow-xl form-control max-h-screen overflow-y-auto"
@@ -64,6 +69,7 @@ export const AddSchedule = () => {
             value={scheduleToAdd.schedule_datetime}
             className="input input-bordered"
             onChange={handleChange}
+            min={getCurrentDateTime()}
           />
         </label>
 

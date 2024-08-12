@@ -5,7 +5,7 @@ import { filmStore } from "../zustand/filmStore";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../utils/socket";
 
-const FilmCard = ({ id, title, duration, genre, img }: FilmType) => {
+const FilmCard = ({ id, title, duration, genre, img, rating }: FilmType) => {
   const auth = useStore(authStore);
   const films = useStore(filmStore);
   const navigate = useNavigate();
@@ -25,6 +25,9 @@ const FilmCard = ({ id, title, duration, genre, img }: FilmType) => {
           alt="Film Image"
           className="w-full h-full object-content"
         />
+        <span className="absolute top-2 left-2 bg-primary-content text-primary text-sm font-bold rounded-full px-3 py-1">
+          {rating}
+        </span>
       </figure>
       <div className="card-body w-full lg:max-w-96 max-w-80 text-balance truncate lg:truncate md:w-2/3 p-4 flex flex-col ">
         <div className="flex-grow mb-4">

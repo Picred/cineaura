@@ -45,30 +45,38 @@ const Home = () => {
     <div className="bg-base-200">
       <Navbar />
       <div className="container mx-auto px-4 py-6">
-        <h1 className="text-3xl font-bold text-center mb-8 text-primary">
-          ▶ Now Playing
-        </h1>
-        <NowPlaying
-          title={nowPlaying.filmTitle}
-          img={nowPlaying.filmImg}
-          duration={nowPlaying.filmDuration}
-        />
+        {nowPlaying.filmTitle && (
+          <>
+            <h1 className="text-3xl font-bold text-center mb-8 text-primary">
+              ▶ Now Playing
+            </h1>
+            <NowPlaying
+              title={nowPlaying.filmTitle}
+              img={nowPlaying.filmImg}
+              duration={nowPlaying.filmDuration}
+            />
+          </>
+        )}
 
-        <h1 className="text-3xl font-bold text-center mb-8 text-primary">
-          🕗 Schedules
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-          {films.schedule?.map((schedule) => (
-            <div key={schedule.id} className="w-full h-full flex">
-              <ScheduleCard
-                id={schedule.id}
-                film_id={schedule.film_id}
-                schedule_datetime={schedule.schedule_datetime}
-                capacity={schedule.capacity}
-              />
+        {films.schedule && (
+          <>
+            <h1 className="text-3xl font-bold text-center mb-8 text-primary">
+              🕗 Schedules
+            </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+              {films.schedule?.map((schedule) => (
+                <div key={schedule.id} className="w-full h-full flex">
+                  <ScheduleCard
+                    id={schedule.id}
+                    film_id={schedule.film_id}
+                    schedule_datetime={schedule.schedule_datetime}
+                    capacity={schedule.capacity}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
 
         <h1 className="text-3xl font-bold text-center mb-8 text-primary">
           ⭐ Most rated films ⭐

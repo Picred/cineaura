@@ -65,7 +65,7 @@ export const filmStore = create<FilmStore>((set, get) => ({
     return get()
       .films.slice()
       .sort((a, b) => b.rating - a.rating)
-      .slice(0, 6);
+      .slice(0, 9);
   },
 
   updateSchedule: async () => {

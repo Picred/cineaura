@@ -26,7 +26,7 @@ const Navbar = () => {
         </Link>
 
         {auth.isAdmin && (
-          <div className="hidden lg:flex lg:items-center lg:justify-center lg:flex-1">
+          <div className="hidden lg:flex lg:items-left lg:justify-left pl-4 lg:flex-1">
             <Link to="/admin-dashboard" className="btn btn-secondary text-xl">
               Admin Dashboard
             </Link>
