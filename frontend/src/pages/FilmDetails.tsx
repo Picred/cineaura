@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import { FilmType } from "../types/FilmType";
 import { useState, useEffect } from "react";
 import { getFilmById } from "../api/film.api";
-import { socket } from "../utils/socket";
 
 const FilmDetails = () => {
   const [film, setFilm] = useState<FilmType>({} as FilmType);

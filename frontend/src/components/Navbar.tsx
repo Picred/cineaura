@@ -2,7 +2,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { Link } from "react-router-dom";
 import { authStore } from "../zustand/AuthStore";
 import { useStore } from "zustand";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { filmStore } from "../zustand/filmStore";
 import { formatIsoDate } from "../utils/isoDate";
 
@@ -12,7 +12,14 @@ const Navbar = () => {
   const films = useStore(filmStore);
   const allTickets = films.tickets;
 
-  const numberOfTickets = films.tickets?.length ? films.tickets.length : 0;
+  const [numberOfTickets, setNumberOfTickets] = useState<number>(
+    films.tickets?.length || 0
+  );
+
+  useEffect(() => {
+    films.updateTickets(auth.username);
+    setNumberOfTickets(allTickets?.length || 0);
+  }, [allTickets]);
 
   return (
     <div className="navbar bg-neutral p-4">
@@ -63,12 +70,13 @@ const Navbar = () => {
                       <p className="truncate max-w-24">
                         {films.getFilm(ticket.film_id)?.title}
                       </p>
-                      <p className="font-bold text-md w-1/3 text-right ">
-                        {formatIsoDate(
-                          films.schedule.find(
-                            (s) => s.id === ticket.schedule_id
-                          )?.schedule_datetime as string
-                        )}
+                      <p className="font-bold text-md w-1/3 text-right">
+                        {films.schedule &&
+                          formatIsoDate(
+                            films.schedule.find(
+                              (s) => s.id === ticket.schedule_id
+                            )?.schedule_datetime as string
+                          )}
                       </p>
                     </div>
                   </li>

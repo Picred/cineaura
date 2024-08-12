@@ -1,5 +1,6 @@
 import { socket } from "../../utils/socket";
 import { ScheduleType } from "../../types/ScheduleType";
+import { formatIsoDate } from "../../utils/isoDate";
 
 export const ScheduleTable = ({ schedule }: { schedule: ScheduleType[] }) => {
   const deleteSchedule = (scheduleId: number) => {
@@ -32,7 +33,7 @@ export const ScheduleTable = ({ schedule }: { schedule: ScheduleType[] }) => {
                     </div>
                   </div>
                 </td>
-                <td className="p-2">{item.schedule_datetime}</td>
+                <td className="p-2">{formatIsoDate(item.schedule_datetime)}</td>
                 <td className="p-2 gap-1 flex">
                   <button
                     className="btn btn-error btn-xs"
