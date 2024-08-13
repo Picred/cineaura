@@ -69,13 +69,13 @@ const Navbar = () => {
                   >
                     <div className="flex justify-between items-center">
                       <button
-                        className="badge badge-error ml-2 absolute left-0 top-2"
+                        className="badge badge-error ml-3 absolute left-0 top-2 text-md font-semibold text-error-content"
                         onClick={() => deleteTicket(Number(ticket.id))}
                       >
-                        X
+                        Delete
                       </button>
 
-                      <p className="truncate max-w-24">
+                      <p className="truncate max-w-24 pt-1">
                         {films.getFilm(ticket.film_id)?.title}
                       </p>
                       <p className="font-bold text-md w-1/3 text-right">

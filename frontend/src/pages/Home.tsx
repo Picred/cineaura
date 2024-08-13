@@ -48,7 +48,8 @@ const Home = () => {
         {nowPlaying.filmTitle && (
           <>
             <h1 className="text-3xl font-bold text-center mb-8 text-primary">
-              ▶ Now Playing
+              <p className="pt-2">▶ Now Playing </p>
+              <div className="divider divider-neutral"></div>
             </h1>
             <NowPlaying
               title={nowPlaying.filmTitle}
@@ -61,7 +62,8 @@ const Home = () => {
         {films.schedule && (
           <>
             <h1 className="text-3xl font-bold text-center mb-8 text-primary">
-              🕗 Schedules
+              <p className="pt-2">🕗 Schedule</p>
+              <div className="divider divider-neutral"></div>
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
               {films.schedule?.map((schedule) => (
@@ -79,7 +81,8 @@ const Home = () => {
         )}
 
         <h1 className="text-3xl font-bold text-center mb-8 text-primary">
-          ⭐ Most rated films ⭐
+          <p className="pt-2">⭐ Most Rated</p>
+          <div className="divider divider-neutral"></div>
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
           {films.getTop10Films().map((film) => (
