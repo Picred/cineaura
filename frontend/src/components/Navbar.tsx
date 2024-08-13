@@ -5,6 +5,7 @@ import { useStore } from "zustand";
 import { useState, useEffect } from "react";
 import { filmStore } from "../zustand/filmStore";
 import { formatIsoDate } from "../utils/isoDate";
+import { deleteTicket } from "../api/film.api";
 
 const Navbar = () => {
   const auth = useStore(authStore);
@@ -67,6 +68,13 @@ const Navbar = () => {
                     className="m-2 hover:bg-primary hover:text-primary-content outline outline-secondary rounded-btn"
                   >
                     <div className="flex justify-between items-center">
+                      <button
+                        className="badge badge-error ml-2 absolute left-0 top-2"
+                        onClick={() => deleteTicket(Number(ticket.id))}
+                      >
+                        X
+                      </button>
+
                       <p className="truncate max-w-24">
                         {films.getFilm(ticket.film_id)?.title}
                       </p>

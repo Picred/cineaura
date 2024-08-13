@@ -15,6 +15,7 @@ import {
   addTicket,
   removeSchedule,
   removeScheduleById,
+  deleteTicket,
 } from "./db/filmsOperations";
 import { ScheduleType } from "./types/ScheduleType";
 
@@ -151,6 +152,15 @@ io.on("connection", (socket) => {
     } catch (error) {
       console.error("Error adding ticket:", error);
       callback({ success: false, message: "Error adding ticket" });
+    }
+  });
+
+  socket.on("deleteTicket", async (id) => {
+    try {
+      await deleteTicket(id);
+      io.sockets.emit("update");
+    } catch (error) {
+      console.error("Error deleting ticket:", error);
     }
   });
 });

@@ -170,3 +170,14 @@ export async function addTicket(ticket: TicketType): Promise<void> {
     connection.release();
   }
 }
+
+export const deleteTicket = async (ticketId: number): Promise<void> => {
+  const sql = "DELETE FROM tickets WHERE id = ?";
+
+  try {
+    await conn.execute(sql, [ticketId]);
+  } catch (err) {
+    console.error("Error deleting ticket:", err);
+    throw err;
+  }
+};
