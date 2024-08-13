@@ -172,12 +172,47 @@ export async function addTicket(ticket: TicketType): Promise<void> {
 }
 
 export const deleteTicket = async (ticketId: number): Promise<void> => {
-  const sql = "DELETE FROM tickets WHERE id = ?";
+  const getTicketSql = "SELECT schedule_id FROM tickets WHERE id = ?";
+  const deleteTicketSql = "DELETE FROM tickets WHERE id = ?";
+  const updateCapacitySql =
+    "UPDATE schedule SET capacity = capacity + 1 WHERE id = ?";
 
+  const connection = await conn.getConnection();
   try {
-    await conn.execute(sql, [ticketId]);
+    await connection.beginTransaction();
+
+    // Step 1: Recupera il schedule_id dal ticket
+    const [rows] = await connection.execute(getTicketSql, [ticketId]);
+    const ticket = (rows as any)[0];
+
+    if (!ticket) {
+      throw new Error("Ticket not found");
+    }
+
+    // Step 2: Elimina il ticket
+    const [deleteResult] = await connection.execute(deleteTicketSql, [
+      ticketId,
+    ]);
+
+    if ((deleteResult as any).affectedRows === 0) {
+      throw new Error("Failed to delete ticket");
+    }
+
+    // Step 3: Incrementa la capacità del schedule corrispondente
+    const [updateResult] = await connection.execute(updateCapacitySql, [
+      ticket.schedule_id,
+    ]);
+
+    if ((updateResult as any).affectedRows === 0) {
+      throw new Error("Failed to update schedule capacity");
+    }
+
+    await connection.commit();
   } catch (err) {
+    await connection.rollback();
     console.error("Error deleting ticket:", err);
     throw err;
+  } finally {
+    connection.release();
   }
 };
