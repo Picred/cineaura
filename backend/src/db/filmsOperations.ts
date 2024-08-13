@@ -181,7 +181,6 @@ export const deleteTicket = async (ticketId: number): Promise<void> => {
   try {
     await connection.beginTransaction();
 
-    // Step 1: Recupera il schedule_id dal ticket
     const [rows] = await connection.execute(getTicketSql, [ticketId]);
     const ticket = (rows as any)[0];
 
@@ -189,7 +188,6 @@ export const deleteTicket = async (ticketId: number): Promise<void> => {
       throw new Error("Ticket not found");
     }
 
-    // Step 2: Elimina il ticket
     const [deleteResult] = await connection.execute(deleteTicketSql, [
       ticketId,
     ]);
@@ -198,7 +196,6 @@ export const deleteTicket = async (ticketId: number): Promise<void> => {
       throw new Error("Failed to delete ticket");
     }
 
-    // Step 3: Incrementa la capacità del schedule corrispondente
     const [updateResult] = await connection.execute(updateCapacitySql, [
       ticket.schedule_id,
     ]);
