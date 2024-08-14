@@ -42,7 +42,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-base-200">
+    <div className="bg-base-100">
       <Navbar />
       <div className="container mx-auto px-4 py-6">
         {nowPlaying.filmTitle && (

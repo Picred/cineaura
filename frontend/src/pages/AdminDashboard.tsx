@@ -34,31 +34,31 @@ const AdminDashboard = () => {
 
       {auth.isAdmin && (
         <>
-          <h1 className="text-3xl font-bold text-left m-4 text-secondary">
-            Admin Dashboard
+          <h1 className="text-3xl font-mono m-8 text-neutral-content text-center bg-neutral rounded-full p-2 max-w-screen inline-block">
+            Welcome {auth.username} 👋
           </h1>
-          <div className="flex flex-wrap gap-2 justify-center px-4">
+          <div className="flex flex-wrap gap-10 justify-center px-4 ">
             <div className="w-full max-w-lg">
-              <h2 className="text-lg font-bold text-center mb-4 text-secondary">
+              <h2 className="text-lg font-semibold text-center text-info-content bg-info rounded-full mb-6">
                 Add film
               </h2>
               <AddNewFilm />
             </div>
             <div className="w-full max-w-lg">
-              <h2 className="text-lg font-bold text-center mb-4 text-secondary">
+              <h2 className="text-lg font-semibold text-center text-info-content bg-info rounded-full mb-6">
                 Film
               </h2>
               <FilmTable films={films.films} />
             </div>
             <div className="w-full max-w-lg">
-              <h2 className="text-lg font-bold text-center mb-4 text-secondary">
+              <h2 className="text-lg font-semibold text-center text-info-content bg-info rounded-full mb-6">
                 Schedule
               </h2>
               <ScheduleTable schedule={films?.schedule} />
             </div>
 
             <div className="w-full max-w-lg">
-              <h2 className="text-lg font-bold text-center mb-4 text-secondary">
+              <h2 className="text-lg font-semibold text-center text-info-content bg-info rounded-full mb-6">
                 New schedule
               </h2>
               <AddSchedule />

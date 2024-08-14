@@ -43,7 +43,7 @@ export const AddNewFilm = () => {
 
   return (
     <form
-      className="card bg-base-300 w-screen max-w-lg mx-auto shadow-xl form-control max-h-screen overflow-y-auto"
+      className="card bg-base-300 max-w-screen mx-auto shadow-xl form-control max-h-screen overflow-y-auto"
       onSubmit={handleAddFilm}
     >
       <div className="card-body flex flex-col gap-4">

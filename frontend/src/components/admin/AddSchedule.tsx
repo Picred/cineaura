@@ -39,7 +39,7 @@ export const AddSchedule = () => {
   };
   return (
     <form
-      className="card bg-base-300 w-screen max-w-lg mx-auto shadow-xl form-control max-h-screen overflow-y-auto"
+      className="card bg-base-300 max-w-lg mx-auto shadow-xl form-control max-h-screen overflow-y-auto"
       onSubmit={handleAddSchedule}
     >
       <div className="card-body flex flex-col gap-4">
