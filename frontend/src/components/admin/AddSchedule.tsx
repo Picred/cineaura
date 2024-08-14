@@ -7,7 +7,7 @@ import { ScheduleType } from "../../types/ScheduleType";
 export const AddSchedule = () => {
   const { films, addSchedule } = useStore(filmStore);
   const [scheduleToAdd, setScheduleToAdd] = useState<ScheduleType>({
-    film_id: films.length > 0 ? films[0].id : 0,
+    film_id: films?.length > 0 ? films[0].id : 0,
     schedule_datetime: "",
     capacity: 50,
   } as ScheduleType);
@@ -52,7 +52,7 @@ export const AddSchedule = () => {
             onChange={handleChange}
             required
           >
-            {films.map((film) => (
+            {films?.map((film) => (
               <option key={film.id} value={film.id}>
                 {film.title}
               </option>

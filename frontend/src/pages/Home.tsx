@@ -30,7 +30,7 @@ const Home = () => {
       const startTime = Date.now();
       nowPlaying.add(
         String(film.title),
-        String(film.img),
+        String(film.coverImg),
         Number(film.duration),
         startTime
       );
@@ -85,20 +85,21 @@ const Home = () => {
           <div className="divider divider-neutral"></div>
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-          {films.getTop10Films().map((film) => (
-            <div key={film.id} className="w-full h-full flex">
-              <FilmCard
-                id={film.id}
-                title={film.title}
-                release_year={film.release_year}
-                duration={film.duration}
-                genre={film.genre}
-                cast={film.cast}
-                rating={film.rating}
-                img={film.img}
-              />
-            </div>
-          ))}
+          {films.getTop10Films() &&
+            films.getTop10Films().map((film) => (
+              <div key={film.id} className="w-full h-full flex">
+                <FilmCard
+                  id={film.id}
+                  title={film.title}
+                  release_year={film.release_year}
+                  duration={film.duration}
+                  genre={film.genre}
+                  cast={film.cast}
+                  rating={film.rating}
+                  img={film.img}
+                />
+              </div>
+            ))}
         </div>
       </div>
 

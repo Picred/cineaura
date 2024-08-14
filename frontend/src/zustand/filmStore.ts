@@ -63,7 +63,7 @@ export const filmStore = create<FilmStore>((set, get) => ({
 
   getTop10Films: () => {
     return get()
-      .films.slice()
+      .films?.slice()
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 9);
   },

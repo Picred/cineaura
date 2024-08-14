@@ -7,5 +7,6 @@ export type FilmType = {
   description?: string;
   cast: string;
   img: string;
+  coverImg?: string;
   rating: number;
 };

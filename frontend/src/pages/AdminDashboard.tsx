@@ -37,7 +37,7 @@ const AdminDashboard = () => {
           <h1 className="text-3xl font-bold text-left m-4 text-secondary">
             Admin Dashboard
           </h1>
-          <div className="flex flex-wrap gap-3 justify-center px-4">
+          <div className="flex flex-wrap gap-2 justify-center px-4">
             <div className="w-full max-w-lg">
               <h2 className="text-lg font-bold text-center mb-4 text-secondary">
                 Add film
@@ -46,20 +46,20 @@ const AdminDashboard = () => {
             </div>
             <div className="w-full max-w-lg">
               <h2 className="text-lg font-bold text-center mb-4 text-secondary">
-                Films on DB
+                Film
               </h2>
               <FilmTable films={films.films} />
             </div>
             <div className="w-full max-w-lg">
               <h2 className="text-lg font-bold text-center mb-4 text-secondary">
-                Schedules on DB
+                Schedule
               </h2>
               <ScheduleTable schedule={films?.schedule} />
             </div>
 
             <div className="w-full max-w-lg">
               <h2 className="text-lg font-bold text-center mb-4 text-secondary">
-                Add new schedule
+                New schedule
               </h2>
               <AddSchedule />
             </div>

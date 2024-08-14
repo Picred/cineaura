@@ -25,7 +25,7 @@ export const FilmTable = ({ films }: { films: FilmType[] }) => {
           </tr>
         </thead>
         <tbody>
-          {films.map((film: FilmType, index: number) => (
+          {films?.map((film: FilmType, index: number) => (
             <tr key={index}>
               <td className="p-2">
                 <div className="flex items-center gap-3">

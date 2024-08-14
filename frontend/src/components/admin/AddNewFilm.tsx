@@ -13,6 +13,7 @@ export const AddNewFilm = () => {
     description: "",
     cast: "",
     img: "",
+    coverImg: "",
     rating: 0,
   } as FilmType);
 
@@ -35,6 +36,7 @@ export const AddNewFilm = () => {
       description: "",
       cast: "",
       img: "",
+      coverImg: "",
       rating: 0,
     } as FilmType);
   };
@@ -135,6 +137,19 @@ export const AddNewFilm = () => {
         </label>
 
         <label className="flex flex-col gap-1">
+          <span className="font-bold">Cover Image URL</span>
+          <input
+            required
+            type="text"
+            name="coverImg"
+            value={filmToAdd.coverImg}
+            placeholder="https://www.google.com"
+            className="input input-bordered"
+            onChange={handleChange}
+          />
+        </label>
+
+        <label className="flex flex-col gap-1">
           <span className="font-bold">Rating (1-10)</span>
           <input
             required
@@ -142,7 +157,6 @@ export const AddNewFilm = () => {
             name="rating"
             value={filmToAdd.rating}
             max={10}
-            min={1}
             className="input input-bordered"
             onChange={handleChange}
           />
