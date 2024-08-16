@@ -9,15 +9,15 @@ import {
   addFilm,
   deleteFilm,
   getFilmById,
+} from "./db/filmsOperations";
+
+import { getTickets, addTicket, deleteTicket } from "./db/ticketOperations";
+import {
   getSchedule,
   addSchedule,
-  getTickets,
-  addTicket,
   removeSchedule,
   removeScheduleById,
-  deleteTicket,
-} from "./db/filmsOperations";
-import { ScheduleType } from "./types/ScheduleType";
+} from "./db/scheduleOperations";
 
 export const app: Express = express();
 const cookieParser = require("cookie-parser");
