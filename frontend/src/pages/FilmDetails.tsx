@@ -47,21 +47,24 @@ const FilmDetails = () => {
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold">
               {film.title} ({film.release_year})
             </h1>
-            <p className="text-md md:text-lg mt-2">
+            <p className="text-md md:text-lg mt-2 italic font-bold">
               {film.genre} | {film.duration} minutes
             </p>
+
             <div
-              className="radial-progress text-secondary mt-2"
+              className="radial-progress text-primary mt-2"
               style={{ "--value": film.rating * 10 } as React.CSSProperties}
               role="progressbar"
             >
               {film.rating}
             </div>
-            <p className="text-md md:text-lg mt-2">Description</p>
+            <p className="text-md md:text-lg mt-3 italic font-bold">
+              Description
+            </p>
             <div className="divider divider-primary"></div>
             <p className="text-md md:text-lg mt-1">{film.description}</p>
             <div className="divider divider-primary"></div>
-            <p className="text-md md:text-lg mt-2">Cast</p>
+            <p className="text-md md:text-lg mt-2 italic font-bold">Cast</p>
             <p className="text-md md:text-lg mt-1 mb-10">{film.cast}</p>
           </div>
         </div>

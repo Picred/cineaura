@@ -9,7 +9,6 @@ import { deleteTicket } from "../api/film.api";
 
 const Navbar = () => {
   const auth = useStore(authStore);
-  const [searchFilm, setSearchFilm] = useState("");
   const films = useStore(filmStore);
   const allTickets = films.tickets;
 
@@ -44,7 +43,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           <div className="dropdown dropdown-end flex-col items-center justify-center">
             <div tabIndex={0}>
-              <button className="btn btn-secondary text-lg">
+              <button className="btn btn-secondary text-lg text-secondary-content">
                 Tickets
                 <div className="badge badge-secondary-content">
                   {numberOfTickets}

@@ -9,13 +9,13 @@ const Footer = () => {
             <img
               src="/cineaura.svg"
               alt="CineAura Logo"
-              className="w-12 h-12"
+              className="w-14 h-14"
             />
-            <p className="text-lg text-primary">CineAura</p>
+            <p className="text-2xl text-info">Cineaura</p>
           </Link>
         </aside>
         <nav className="flex flex-col items-center md:items-start">
-          <h6 className="footer-title">Social</h6>
+          <h6 className="footer-title">Made with ❤ by</h6>
           <div className="grid grid-flow-col gap-4 mt-2">
             <a
               href="https://github.com/Picred/"
@@ -25,7 +25,7 @@ const Footer = () => {
               <img
                 src="/src/assets/github.svg"
                 alt="Github"
-                className="w-6 h-6"
+                className="w-10 h-10"
               />
             </a>
             <a
@@ -36,7 +36,7 @@ const Footer = () => {
               <img
                 src="/src/assets/linkedin.svg"
                 alt="Linkedin"
-                className="w-6 h-6"
+                className="w-10 h-10"
               />
             </a>
           </div>
