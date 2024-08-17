@@ -7,7 +7,12 @@ import { filmStore } from "../zustand/filmStore";
 import { formatIsoDate } from "../utils/isoDate";
 import { deleteTicket } from "../api/film.api";
 
-const Navbar = () => {
+/**
+ * Navbar component displays the navigation bar with links, user information, and ticket details.
+ *
+ * @returns {JSX.Element} The rendered Navbar component.
+ */
+const Navbar = (): JSX.Element => {
   const auth = useStore(authStore);
   const films = useStore(filmStore);
   const allTickets = films.tickets;
@@ -16,6 +21,12 @@ const Navbar = () => {
     films.tickets?.length || 0
   );
 
+  /**
+   *
+   * Updates the tickets for the authenticated user and sets the number of tickets.
+   *
+   * Dependencies: [allTickets]
+   */
   useEffect(() => {
     films.updateTickets(auth.username);
     setNumberOfTickets(allTickets?.length || 0);

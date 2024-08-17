@@ -9,18 +9,30 @@ import { useNavigate } from "react-router-dom";
 import { TicketType } from "../types/TicketType";
 import { socket } from "../utils/socket";
 
+/**
+ * ScheduleCard component displays a card with schedule details and options to book or delete the schedule.
+ *
+ * @param {ScheduleType} props - The schedule details to display in the card.
+ * @param {number} props.id - The ID of the schedule.
+ * @param {number} props.film_id - The ID of the film associated with the schedule.
+ * @param {string} props.schedule_datetime - The date and time of the schedule.
+ * @param {number} props.capacity - The number of available seats for the schedule.
+ * @returns {JSX.Element} The rendered ScheduleCard component.
+ */
 export const ScheduleCard = ({
   id,
-  film_title,
   film_id,
   schedule_datetime,
   capacity,
-}: ScheduleType) => {
+}: ScheduleType): JSX.Element => {
   const films = useStore(filmStore);
   const film = films.getFilm(film_id);
   const auth = useStore(authStore);
   const navigate = useNavigate();
 
+  /**
+   * Opens the booking modal if there are available seats. Otherwise, shows a notification.
+   */
   const handleBookNow = () => {
     if (capacity > 0) {
       const modal = document.getElementById(`modal_${id}`) as HTMLDialogElement;
@@ -30,6 +42,10 @@ export const ScheduleCard = ({
     }
   };
 
+  /**
+   * Confirms the booking of a ticket. If the user is not logged in, redirects to the login page.
+   * Otherwise, attempts to book the ticket and updates the user's tickets.
+   */
   const handleConfirmBooking = async () => {
     if (!auth.username) {
       notify("Please login to book a ticket", "error", auth.theme);
@@ -59,11 +75,17 @@ export const ScheduleCard = ({
     }
   };
 
+  /**
+   * Closes the booking modal.
+   */
   const handleCancelBooking = () => {
     const modal = document.getElementById(`modal_${id}`) as HTMLDialogElement;
     modal?.close();
   };
 
+  /**
+   * Emits a socket event to delete the specified schedule by its ID.
+   */
   const deleteSchedule = async () => {
     socket.emit("deleteSchedule", id);
   };

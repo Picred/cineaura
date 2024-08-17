@@ -1,12 +1,14 @@
 // components/BookTicketForm.tsx
 import { useState } from "react";
-import { useStore } from "zustand";
-import { filmStore } from "../zustand/filmStore";
 import { TicketType } from "../types/TicketType";
 import { useSearchParams } from "react-router-dom";
 
-export const BookTicket = () => {
-  const films = useStore(filmStore);
+/**
+ * BookTicket component allows users to book a ticket by filling out a form.
+ *
+ * @returns {JSX.Element} The rendered BookTicket component.
+ */
+export const BookTicket = (): JSX.Element => {
   const [params] = useSearchParams();
   const film_id = Number(params.get("film_id"));
   const schedule_id = Number(params.get("schedule_id"));
@@ -18,6 +20,11 @@ export const BookTicket = () => {
     price: 5.0,
   } as TicketType);
 
+  /**
+   * Updates the ticket state based on user input.
+   *
+   * @param e - The change event from the input field.
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setTicket((prev: TicketType) => ({
@@ -27,10 +34,15 @@ export const BookTicket = () => {
     console.log(ticket);
   };
 
+  /**
+   * Handles the form submission to book a ticket.
+   * Resets the ticket state after booking.
+   *
+   * @param e - The form submission event.
+   */
   const handleBookTicket = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      //   await films.addTicket(ticket);
       setTicket({
         user_id: 1,
         film_id,

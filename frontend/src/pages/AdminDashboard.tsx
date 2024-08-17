@@ -6,13 +6,16 @@ import { authStore } from "../zustand/AuthStore";
 import { FilmTable } from "../components/admin/FilmTable";
 import { AddNewFilm } from "../components/admin/AddNewFilm";
 import { AddSchedule } from "../components/admin/AddSchedule";
-import { nowPlayingStore } from "../zustand/nowPlayingStore";
 import { ScheduleTable } from "../components/admin/ScheduleTable";
 
-const AdminDashboard = () => {
+/**
+ * AdminDashboard component displays the admin dashboard with options to add films, view films, and manage schedules.
+ *
+ * @returns {JSX.Element} The rendered AdminDashboard component.
+ */
+const AdminDashboard = (): JSX.Element => {
   const auth = useStore(authStore);
   const films = useStore(filmStore);
-  const nowPlaying = useStore(nowPlayingStore);
 
   return (
     <>

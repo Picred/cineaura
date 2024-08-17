@@ -40,14 +40,26 @@ const router = createBrowserRouter([
   },
 ]);
 
-const Root = () => {
+/**
+ * Root component sets up the main application structure including routing and socket event listeners.
+ *
+ * @returns {JSX.Element} The rendered Root component.
+ */
+const Root = (): JSX.Element => {
+  /**
+   * Sets up socket event listeners for "connect" and "disconnect" events.
+   * Logs the socket connection status to the console.
+   * Cleans up the event listeners when the component unmounts.
+   *
+   * Dependencies: []
+   */
   useEffect(() => {
     socket.on("connect", () => {
       console.log(`Connected to server socket [${socket.id}]`);
     });
 
     socket.on("disconnect", () => {
-      console.log(`Disconneted from server socket [${socket.id}]`);
+      console.log(`Disconneted from server socket.`);
     });
 
     return () => {

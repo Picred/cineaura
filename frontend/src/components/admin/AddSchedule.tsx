@@ -4,7 +4,13 @@ import { useStore } from "zustand";
 import { filmStore } from "../../zustand/filmStore";
 import { ScheduleType } from "../../types/ScheduleType";
 
-export const AddSchedule = () => {
+/**
+ * The AddSchedule component provides a form for adding a new schedule to the film store. It uses Zustand for state management
+ * and maintains local state for the schedule details being added.
+ *
+ * @returns {JSX.Element} The rendered AddSchedule component.
+ */
+export const AddSchedule = (): JSX.Element => {
   const { films, addSchedule } = useStore(filmStore);
   const [scheduleToAdd, setScheduleToAdd] = useState<ScheduleType>({
     film_id: films?.length > 0 ? films[0].id : 0,
@@ -12,6 +18,11 @@ export const AddSchedule = () => {
     capacity: 50,
   } as ScheduleType);
 
+  /**
+   * Handles changes to the form inputs and updates the local state `scheduleToAdd`.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLSelectElement>} e - The change event triggered by the form input.
+   */
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -22,6 +33,11 @@ export const AddSchedule = () => {
     }));
   };
 
+  /**
+   * Handles the form submission to add a new schedule to the film store.
+   *
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleAddSchedule = async (e: React.FormEvent) => {
     e.preventDefault();
     await addSchedule(scheduleToAdd);
@@ -31,7 +47,11 @@ export const AddSchedule = () => {
       capacity: 50,
     } as ScheduleType);
   };
-
+  /**
+   * Returns the current date and time in a format suitable for the `datetime-local` input.
+   *
+   * @returns {string} - The current date and time in ISO format, sliced to remove seconds.
+   */
   const getCurrentDateTime = () => {
     const now = new Date();
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());

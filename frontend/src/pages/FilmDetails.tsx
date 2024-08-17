@@ -5,10 +5,18 @@ import { FilmType } from "../types/FilmType";
 import { useState, useEffect } from "react";
 import { getFilmById } from "../api/film.api";
 
-const FilmDetails = () => {
+/**
+ * FilmDetails component fetches and displays the details of a film based on the film ID from the URL parameters.
+ *
+ * @returns {JSX.Element} The rendered FilmDetails component.
+ */
+const FilmDetails = (): JSX.Element => {
   const [film, setFilm] = useState<FilmType>({} as FilmType);
   const { id: filmId } = useParams();
 
+  /**
+   * Fetches the film details using the ID and updates the local state.
+   */
   useEffect(() => {
     if (filmId) {
       getFilmById(Number(filmId))

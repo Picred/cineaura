@@ -1,19 +1,46 @@
 import { FilmType } from "../types/FilmType";
 import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
-import { filmStore } from "../zustand/filmStore";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../utils/socket";
 
-const FilmCard = ({ id, title, duration, genre, img, rating }: FilmType) => {
+/**
+ * FilmCard component displays a card with film details and options to view details or delete the film.
+ *
+ * @param {FilmType} props - The film details to display in the card.
+ * @param {number} props.id - The ID of the film.
+ * @param {string} props.title - The title of the film.
+ * @param {number} props.duration - The duration of the film in minutes.
+ * @param {string} props.genre - The genre of the film.
+ * @param {string} props.img - The URL of the film's image.
+ * @param {number} props.rating - The rating of the film.
+ * @returns {JSX.Element} The rendered FilmCard component.
+ */
+const FilmCard = ({
+  id,
+  title,
+  duration,
+  genre,
+  img,
+  rating,
+}: FilmType): JSX.Element => {
   const auth = useStore(authStore);
-  const films = useStore(filmStore);
   const navigate = useNavigate();
 
+  /**
+   * Navigates to the film details page for the specified film ID.
+   *
+   * @param {number} filmId - The ID of the film to show details for.
+   */
   const showDetails = (filmId: number) => {
     navigate(`/films/${filmId}`);
   };
 
+  /**
+   * Emits a socket event to delete the specified film by its ID.
+   *
+   * @param {number} filmId - The ID of the film to delete.
+   */
   const deleteFilm = (filmId: number) => {
     socket.emit("deleteFilm", filmId);
   };

@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import { nowPlayingStore } from "../zustand/nowPlayingStore";
-import { filmStore } from "../zustand/filmStore";
-import { useStore } from "zustand";
+
+/**
+ * NowPlaying component displays the currently playing film with a progress bar.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.title - The title of the film.
+ * @param {string} props.img - The URL of the film's image.
+ * @param {number} props.duration - The duration of the film in minutes.
+ * @returns {JSX.Element} The rendered NowPlaying component.
+ */
 export const NowPlaying = ({
   title,
   img,
@@ -10,11 +18,16 @@ export const NowPlaying = ({
   title: string;
   img: string;
   duration: number;
-}) => {
+}): JSX.Element => {
   const { getProgress } = nowPlayingStore();
   const [progress, setProgress] = useState(0);
-  const films = useStore(filmStore);
 
+  /**
+   * Initializes the progress state and sets up an interval to update the progress every second.
+   * Clears the interval when the component unmounts or when the progress reaches the film's duration.
+   *
+   * Dependencies: [duration, getProgress]
+   */
   useEffect(() => {
     const initialProgress = getProgress();
     setProgress(initialProgress);
@@ -26,9 +39,9 @@ export const NowPlaying = ({
       if (currentProgress >= duration * 60) {
         clearInterval(interval);
       }
-    }, 1000); // Update progress every second
+    }, 1000);
 
-    return () => clearInterval(interval); // Clean up interval on component unmount
+    return () => clearInterval(interval);
   }, [duration, getProgress]);
 
   return (

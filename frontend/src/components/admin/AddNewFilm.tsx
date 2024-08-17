@@ -3,7 +3,13 @@ import { useStore } from "zustand";
 import { FilmType } from "../../types/FilmType";
 import { filmStore } from "../../zustand/filmStore";
 
-export const AddNewFilm = () => {
+/**
+ * The AddNewFilm component provides a form for adding a new film to the film store. It uses Zustand for state management
+ * and maintains local state for the film details being added.
+ *
+ * @returns {JSX.Element} The rendered AddNewFilm component.
+ */
+export const AddNewFilm = (): JSX.Element => {
   const films = useStore(filmStore);
   const [filmToAdd, setFilmToAdd] = useState<FilmType>({
     title: "",
@@ -17,6 +23,11 @@ export const AddNewFilm = () => {
     rating: 0,
   } as FilmType);
 
+  /**
+   * Handles changes to the form inputs and updates the local state `filmToAdd`.
+   *
+   * @param {React.ChangeEvent} e - The change event triggered by the form input.
+   */
   const handleChange = (e: React.ChangeEvent) => {
     const { name, value } = e.target as HTMLInputElement;
     setFilmToAdd((prev: FilmType) => ({
@@ -25,6 +36,11 @@ export const AddNewFilm = () => {
     }));
   };
 
+  /**
+   * Handles the form submission to add a new film to the film store.
+   *
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleAddFilm = (e: React.FormEvent) => {
     e.preventDefault();
     films.add(filmToAdd);

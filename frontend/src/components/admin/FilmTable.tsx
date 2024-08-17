@@ -2,13 +2,30 @@ import { useNavigate } from "react-router-dom";
 import { FilmType } from "../../types/FilmType";
 import { socket } from "../../utils/socket";
 
-export const FilmTable = ({ films }: { films: FilmType[] }) => {
+/**
+ * FilmTable component displays a table of films with options to view details or delete a film.
+ *
+ * @param {Object} props - The component props.
+ * @param {FilmType[]} props.films - An array of films to display in the table.
+ * @returns {JSX.Element} The rendered FilmTable component.
+ */
+export const FilmTable = ({ films }: { films: FilmType[] }): JSX.Element => {
   const navigate = useNavigate();
 
+  /**
+   * Navigates to the film details page for the specified film ID.
+   *
+   * @param {number} filmId - The ID of the film to show details for.
+   */
   const showDetails = (filmId: number) => {
     navigate(`/films/${filmId}`);
   };
 
+  /**
+   * Emits a socket event to delete the specified film by its ID.
+   *
+   * @param {number} filmId - The ID of the film to delete.
+   */
   const deleteFilm = (filmId: number) => {
     socket.emit("deleteFilm", filmId);
   };

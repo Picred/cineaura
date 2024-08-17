@@ -1,10 +1,20 @@
 import { useState } from "react";
 import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
-const ThemeSwitcher = () => {
+
+/**
+ * ThemeSwitcher component toggles the theme between "night" and "winter".
+ * Updates the document's data-theme attribute and the auth store's theme.
+ *
+ * @returns {JSX.Element} The rendered ThemeSwitcher component.
+ */
+const ThemeSwitcher = (): JSX.Element => {
   const auth = useStore(authStore);
   const [theme, setTheme] = useState("");
 
+  /**
+   * Toggles the theme between "night" and "winter". Updates the document's data-theme attribute and the auth store's theme.
+   */
   const toggleTheme = () => {
     const theme = document.documentElement.getAttribute("data-theme");
     if (theme === "night") {

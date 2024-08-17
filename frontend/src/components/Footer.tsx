@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 
-const Footer = () => {
+/**
+ * Footer component displays the footer section of the application.
+ * It includes a logo, a title, and links to GitHub and LinkedIn profiles.
+ *
+ * @returns {JSX.Element} The rendered Footer component.
+ */
+const Footer = (): JSX.Element => {
   return (
     <footer className="bg-neutral text-neutral-content p-4 md:p-10">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">

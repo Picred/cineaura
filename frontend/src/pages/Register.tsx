@@ -4,11 +4,17 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { notify } from "../utils/notify";
 
-const Register = () => {
+/**
+ * The Register component allows users to create a new account. It uses Zustand for state management
+ * and provides a form for users to enter their username, password, and repeat password. Upon successful
+ * registration, the user is redirected to the login page.
+ *
+ * @returns {JSX.Element} The rendered Register component.
+ */
+const Register = (): JSX.Element => {
   const auth = useStore(authStore);
   const navigate = useNavigate();
 
@@ -19,6 +25,9 @@ const Register = () => {
     repeatPassword: "",
   });
 
+  /**
+   * Enables or disables the form submit button based on form validation.
+   */
   useEffect(() => {
     if (
       user.username.trim().length > 0 &&
@@ -31,6 +40,11 @@ const Register = () => {
     }
   }, [user.username, user.password, user.repeatPassword]);
 
+  /**
+   * Handles the form submission for registering a new user.
+   *
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -45,6 +59,11 @@ const Register = () => {
       });
   };
 
+  /**
+   * Handles changes to the form inputs.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });

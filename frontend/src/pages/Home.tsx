@@ -10,11 +10,19 @@ import { ScheduleCard } from "../components/ScheduleCard";
 import { nowPlayingStore } from "../zustand/nowPlayingStore";
 import { NowPlaying } from "../components/NowPlaying";
 
-const Home = () => {
+/**
+ * Home component displays the home page with now playing films, schedule, and top-rated films.
+ *
+ * @returns {JSX.Element} The rendered Home component.
+ */
+const Home = (): JSX.Element => {
   const auth = useStore(authStore);
   const films = useStore(filmStore);
   const nowPlaying = useStore(nowPlayingStore);
 
+  /**
+   * Initializes film data and set up socket event listeners
+   */
   useEffect(() => {
     films.update();
     films.updateSchedule();

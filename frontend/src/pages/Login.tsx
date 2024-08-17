@@ -7,12 +7,24 @@ import { authStore } from "../zustand/AuthStore";
 import { notify } from "../utils/notify";
 import { filmStore } from "../zustand/filmStore";
 
-const Login = () => {
+/**
+ * The Login component allows users to log in to their accounts. It uses Zustand for state management
+ * and provides a form for users to enter their username and password. Upon successful login, the user
+ * is redirected to the home page.
+ *
+ * @returns {JSX.Element} The rendered Login component.
+ */
+const Login = (): JSX.Element => {
   const auth = useStore(authStore);
   const navigate = useNavigate();
   const films = useStore(filmStore);
   const [user, setUser] = useState({ username: "", password: "" });
 
+  /**
+   * Handles the form submission for logging in.
+   *
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 

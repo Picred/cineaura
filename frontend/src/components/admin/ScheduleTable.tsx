@@ -4,9 +4,25 @@ import { formatIsoDate } from "../../utils/isoDate";
 import { useStore } from "zustand";
 import { filmStore } from "../../zustand/filmStore";
 
-export const ScheduleTable = ({ schedule }: { schedule: ScheduleType[] }) => {
+/**
+ * ScheduleTable component displays a table of schedules with options to delete a schedule.
+ *
+ * @param {Object} props - The component props.
+ * @param {ScheduleType[]} props.schedule - An array of schedules to display in the table.
+ * @returns {JSX.Element} The rendered ScheduleTable component.
+ */
+export const ScheduleTable = ({
+  schedule,
+}: {
+  schedule: ScheduleType[];
+}): JSX.Element => {
   const films = useStore(filmStore);
 
+  /**
+   * Emits a socket event to delete the specified schedule by its ID.
+   *
+   * @param {number} scheduleId - The ID of the schedule to delete.
+   */
   const deleteSchedule = (scheduleId: number) => {
     socket.emit("deleteSchedule", scheduleId);
   };
