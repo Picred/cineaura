@@ -18,6 +18,13 @@
 --
 -- Table structure for table `films`
 --
+CREATE DATABASE IF NOT EXISTS `cineaura`;
+
+USE `cineaura`;
+
+CREATE USER IF NOT EXISTS 'user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON cineaura.* TO 'user'@'localhost';
+FLUSH PRIVILEGES;
 
 DROP TABLE IF EXISTS `films`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

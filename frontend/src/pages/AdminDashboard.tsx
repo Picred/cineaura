@@ -37,7 +37,7 @@ const AdminDashboard = (): JSX.Element => {
 
       {auth.isAdmin && (
         <>
-          <h1 className="text-3xl font-mono m-8 text-neutral-content text-center bg-neutral rounded-full p-2 max-w-screen inline-block">
+          <h1 className="text-3xl font-mono m-8 text-center text-primary bg-base-300 rounded-full p-2 max-w-screen inline-block">
             Welcome {auth.username} 👋
           </h1>
           <div className="flex flex-wrap gap-10 justify-center px-4 ">
