@@ -90,6 +90,14 @@ export const ScheduleCard = ({
     socket.emit("deleteSchedule", id);
   };
 
+  /**
+   * Navigates to the film details page for the specified film ID.
+   * @param filmId
+   */
+  const showDetails = (filmId: number) => {
+    navigate(`/films/${filmId}`);
+  };
+
   return (
     <>
       <div className="relative group bg-base-100 w-64 image-full min-h-44 shadow-2xl">
@@ -109,6 +117,16 @@ export const ScheduleCard = ({
             <button className="btn btn-primary" onClick={handleBookNow}>
               Book Now
             </button>
+
+            {!auth.isAdmin && (
+              <button
+                className="btn btn-warning lg:ml-1"
+                onClick={() => showDetails(film_id)}
+              >
+                Details
+              </button>
+            )}
+
             {auth.isAdmin && (
               <button
                 className="btn btn-error lg:ml-1"
