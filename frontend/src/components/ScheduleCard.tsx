@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useStore } from "zustand";
 import { ScheduleType } from "../types/ScheduleType";
 import { filmStore } from "../zustand/filmStore";

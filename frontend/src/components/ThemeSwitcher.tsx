@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useStore } from "zustand";
 import { authStore } from "../zustand/AuthStore";
 
@@ -10,7 +9,6 @@ import { authStore } from "../zustand/AuthStore";
  */
 const ThemeSwitcher = (): JSX.Element => {
   const auth = useStore(authStore);
-  const [theme, setTheme] = useState("");
 
   /**
    * Toggles the theme between "night" and "winter". Updates the document's data-theme attribute and the auth store's theme.
@@ -19,11 +17,9 @@ const ThemeSwitcher = (): JSX.Element => {
     const theme = document.documentElement.getAttribute("data-theme");
     if (theme === "night") {
       document.documentElement.setAttribute("data-theme", "winter");
-      setTheme("winter");
       auth.theme = "light";
     } else {
       document.documentElement.setAttribute("data-theme", "night");
-      setTheme("night");
       auth.theme = "dark";
     }
   };

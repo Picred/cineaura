@@ -1,4 +1,3 @@
-// zustand/filmStore.ts
 import { create } from "zustand";
 import {
   getAllFilms,
@@ -7,7 +6,6 @@ import {
   addSchedule,
   addTicket,
   getTickets,
-  deleteTicket,
 } from "../api/film.api";
 import { FilmType } from "../types/FilmType";
 import { notify } from "../utils/notify";
@@ -41,7 +39,7 @@ export const filmStore = create<FilmStore>((set, get) => ({
         "success",
         String(document.documentElement.getAttribute("data-theme"))
       );
-      get().update(); // TODO: array.push() instead of fetching all films
+      get().update();
     } catch (error) {
       console.error("Failed to add film:", error);
       throw error;
@@ -100,10 +98,8 @@ export const filmStore = create<FilmStore>((set, get) => ({
         "success",
         String(document.documentElement.getAttribute("data-theme"))
       );
-      // get().updateTickets();
     } catch (error) {
       console.error("Failed to book ticket:", error);
-      // throw error;
     }
   },
 

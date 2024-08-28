@@ -41,7 +41,7 @@ export const ScheduleTable = ({
         </thead>
         <tbody>
           {isScheduleArray && schedule.length > 0 ? (
-            schedule.map((item: ScheduleType, index: number) => (
+            schedule.map((item: ScheduleType) => (
               <tr key={item.id}>
                 <td className="p-2">
                   <div className="flex items-center gap-3">
