@@ -32,28 +32,32 @@ cd backend
 npm install
 ```
 
-3. Create the database:
-
-```bash
-sudo mysql < backend/src/db/createDb.sql
-```
-
-4. Build the frontend:
-
 ```bash
 cd frontend
 npm install
+```
+
+```bash
+# Create the database
+sudo mysql < backend/src/db/createDb.sql
+```
+
+## Run
+Build the frontend:
+
+```bash
+cd frontend
 npm run build
 ```
 
-5. Start the server:
+Start the server:
 
 ```bash
 cd backend
 npm start
 ```
 
-6. Access the website at `http://localhost:8080` in your browser.
+Access the website at `http://localhost:8080` in your browser.
 
 ## Development
 
