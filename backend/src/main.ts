@@ -24,13 +24,15 @@ const cookieParser = require("cookie-parser");
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 generateKeys();
 
 app.use("/api", apiRouter);
+app.use(express.static("public"));
+
+app.use("*", (req, res) => res.sendFile("public/index.html", { root: "./" }));
 
 const server = http.createServer(app);
 
