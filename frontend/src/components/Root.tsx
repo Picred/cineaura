@@ -55,11 +55,9 @@ const Root = (): JSX.Element => {
    */
   useEffect(() => {
     socket.on("connect", () => {
-      console.log(`Connected to server socket [${socket.id}]`);
     });
 
     socket.on("disconnect", () => {
-      console.log(`Disconneted from server socket.`);
     });
 
     return () => {

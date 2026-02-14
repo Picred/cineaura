@@ -1,4 +1,3 @@
-import { RowDataPacket } from "mysql2/promise";
 import { conn } from ".";
 import { TicketType } from "../types/TicketType";
 
@@ -14,9 +13,7 @@ export async function getTickets(
     "SELECT * FROM tickets WHERE user_id = (SELECT id FROM users WHERE username = ?)";
 
   try {
-    const [results] = await conn.query<TicketType[] & RowDataPacket[]>(sql, [
-      username,
-    ]);
+    const results = await conn.all<TicketType[]>(sql, [username]);
     if (results.length) {
       return results;
     }
@@ -37,11 +34,10 @@ export async function addTicket(ticket: TicketType): Promise<void> {
   const updateCapacitySql =
     "UPDATE schedule SET capacity = capacity - 1 WHERE id = ? AND capacity > 0";
 
-  const connection = await conn.getConnection();
   try {
-    await connection.beginTransaction();
+    await conn.exec("BEGIN");
 
-    await connection.execute(insertTicketSql, [
+    await conn.run(insertTicketSql, [
       ticket.user_id,
       ticket.film_id,
       ticket.schedule_id,
@@ -49,21 +45,17 @@ export async function addTicket(ticket: TicketType): Promise<void> {
       ticket.price,
     ]);
 
-    const [result] = await connection.execute(updateCapacitySql, [
-      ticket.schedule_id,
-    ]);
+    const result = await conn.run(updateCapacitySql, [ticket.schedule_id]);
 
-    if ((result as any).affectedRows === 0) {
+    if (result.changes === 0) {
       throw new Error("No seats available or invalid schedule ID");
     }
 
-    await connection.commit();
+    await conn.exec("COMMIT");
   } catch (err) {
-    await connection.rollback();
+    await conn.exec("ROLLBACK");
     console.error("Error adding ticket:", err);
     throw err;
-  } finally {
-    connection.release();
   }
 }
 
@@ -78,39 +70,35 @@ export const deleteTicket = async (ticketId: number): Promise<void> => {
   const updateCapacitySql =
     "UPDATE schedule SET capacity = capacity + 1 WHERE id = ?";
 
-  const connection = await conn.getConnection();
   try {
-    await connection.beginTransaction();
+    await conn.exec("BEGIN");
 
-    const [rows] = await connection.execute(getTicketSql, [ticketId]);
-    const ticket = (rows as any)[0];
+    const ticket = await conn.get<{ schedule_id: number }>(getTicketSql, [
+      ticketId,
+    ]);
 
     if (!ticket) {
       throw new Error("Ticket not found");
     }
 
-    const [deleteResult] = await connection.execute(deleteTicketSql, [
-      ticketId,
-    ]);
+    const deleteResult = await conn.run(deleteTicketSql, [ticketId]);
 
-    if ((deleteResult as any).affectedRows === 0) {
+    if (deleteResult.changes === 0) {
       throw new Error("Failed to delete ticket");
     }
 
-    const [updateResult] = await connection.execute(updateCapacitySql, [
+    const updateResult = await conn.run(updateCapacitySql, [
       ticket.schedule_id,
     ]);
 
-    if ((updateResult as any).affectedRows === 0) {
+    if (updateResult.changes === 0) {
       throw new Error("Failed to update schedule capacity");
     }
 
-    await connection.commit();
+    await conn.exec("COMMIT");
   } catch (err) {
-    await connection.rollback();
+    await conn.exec("ROLLBACK");
     console.error("Error deleting ticket:", err);
     throw err;
-  } finally {
-    connection.release();
   }
 };

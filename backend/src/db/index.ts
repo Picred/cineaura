@@ -1,12 +1,14 @@
-import { createPool } from "mysql2/promise";
+import sqlite3 from "sqlite3";
+import { open, Database } from "sqlite";
 
 /**
- * Creates a connection pool to the MySQL database.
+ * Creates a connection to the SQLite database.
  */
-export const conn = createPool({
-  host: "localhost",
-  user: "user",
-  password: "password",
-  database: "cineaura",
-  connectionLimit: 10,
-});
+export let conn: Database;
+
+export async function initDB() {
+  conn = await open({
+    filename: "./src/db/database.sqlite",
+    driver: sqlite3.Database,
+  });
+}

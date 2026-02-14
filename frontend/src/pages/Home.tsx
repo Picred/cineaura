@@ -24,8 +24,24 @@ const Home = (): JSX.Element => {
    * Initializes film data and set up socket event listeners
    */
   useEffect(() => {
-    films.update();
-    films.updateSchedule();
+    const initializeData = async () => {
+      try {
+        await films.update();
+        await films.updateSchedule();
+      } catch (error) {
+        console.error("❌ Failed to initialize data:", error);
+      }
+    };
+
+    // Always call on connect (fires immediately if already connected)
+    socket.on("connect", () => {
+      initializeData();
+    });
+
+    socket.on("connect_error", (error: any) => {
+      console.error("❌ Socket connection error:", error);
+    });
+
     socket.on("update", () => {
       films.update();
       films.updateSchedule();
@@ -34,7 +50,7 @@ const Home = (): JSX.Element => {
       films.updateTickets(auth.username);
     });
 
-    socket.on("nowPlayingStart", (film) => {
+    socket.on("nowPlayingStart", (film: any) => {
       const startTime = Date.now();
       nowPlaying.add(
         String(film.title),
@@ -47,6 +63,14 @@ const Home = (): JSX.Element => {
     socket.on("nowPlayingEnd", () => {
       nowPlaying.reset();
     });
+
+    return () => {
+      socket.off("connect");
+      socket.off("update");
+      socket.off("updateTickets");
+      socket.off("nowPlayingStart");
+      socket.off("nowPlayingEnd");
+    };
   }, []);
 
   return (

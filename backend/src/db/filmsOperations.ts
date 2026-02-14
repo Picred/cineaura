@@ -1,6 +1,5 @@
 import { FilmType } from "../types/FilmType";
 import { conn } from "./index";
-import { RowDataPacket } from "mysql2/promise";
 
 /**
  * Retrieves all films from the database.
@@ -10,7 +9,7 @@ export async function getAllFilms(): Promise<FilmType[] | undefined> {
   const sql = "SELECT * FROM films";
 
   try {
-    const [results] = await conn.query<FilmType[] & RowDataPacket[]>(sql);
+    const results = await conn.all<FilmType[]>(sql);
 
     if (results.length) {
       return results;
@@ -30,7 +29,7 @@ export async function addFilm(film: FilmType): Promise<void> {
     "INSERT INTO films (title, release_year, duration, genre, description, cast, rating, img, coverImg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   try {
-    await conn.execute(sql, [
+    await conn.run(sql, [
       film.title,
       film.release_year,
       film.duration,
@@ -42,7 +41,6 @@ export async function addFilm(film: FilmType): Promise<void> {
       film.coverImg,
     ]);
   } catch (err) {
-    console.log(err);
   }
 }
 
@@ -55,11 +53,8 @@ export async function getFilmById(id: number): Promise<FilmType | undefined> {
   const sql = "SELECT * FROM films WHERE id = ?";
 
   try {
-    const [results] = await conn.query<FilmType[] & RowDataPacket[]>(sql, [id]);
-
-    if (results.length) {
-      return results[0];
-    }
+    const result = await conn.get<FilmType>(sql, [id]);
+    return result;
   } catch (err) {
     throw err;
   }
@@ -74,8 +69,7 @@ export async function deleteFilm(filmId: number): Promise<void> {
   const sql = "DELETE FROM films WHERE id = ?";
 
   try {
-    await conn.execute(sql, [filmId]);
+    await conn.run(sql, [filmId]);
   } catch (err) {
-    console.log(err);
   }
 }

@@ -1,4 +1,3 @@
-import { RowDataPacket } from "mysql2/promise";
 import { conn } from ".";
 import { ScheduleType } from "../types/ScheduleType";
 
@@ -10,7 +9,7 @@ export async function getSchedule(): Promise<ScheduleType[] | undefined> {
   const sql = "SELECT * FROM schedule";
 
   try {
-    const [results] = await conn.query<ScheduleType[] & RowDataPacket[]>(sql);
+    const results = await conn.all<ScheduleType[]>(sql);
 
     if (results.length) {
       return results;
@@ -31,7 +30,7 @@ export async function addSchedule(schedule: ScheduleType): Promise<void> {
     "INSERT INTO schedule (film_id, schedule_datetime, capacity) VALUES (?, ?, ?)";
 
   try {
-    await conn.execute(sql, [
+    await conn.run(sql, [
       schedule.film_id,
       schedule.schedule_datetime,
       schedule.capacity,
@@ -51,7 +50,7 @@ export async function removeSchedule(schedule: any): Promise<void> {
   const sql = "DELETE FROM schedule WHERE schedule_datetime = ?";
 
   try {
-    await conn.execute(sql, [schedule.schedule_datetime]);
+    await conn.run(sql, [schedule.schedule_datetime]);
   } catch (err) {
     console.error("Error removing schedule:", err);
     throw err;
@@ -67,7 +66,7 @@ export async function removeScheduleById(scheduleId: number): Promise<void> {
   const sql = "DELETE FROM schedule WHERE id = ?";
 
   try {
-    await conn.execute(sql, [scheduleId]);
+    await conn.run(sql, [scheduleId]);
   } catch (err) {
     console.error("Error removing schedule:", err);
     throw err;

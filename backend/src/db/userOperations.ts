@@ -2,7 +2,6 @@ import { conn } from "./index";
 import fs from "fs/promises";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { UserType } from "../types/UserType";
-import { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { generateKeyPairSync } from "crypto";
 
 /**
@@ -39,7 +38,7 @@ export function registerUserDB(user: UserType) {
   const sql =
     "insert into users (username, password, isAdmin) values (?, ?, ?);";
 
-  conn.execute<ResultSetHeader>(sql, [user.username, user.password, false]);
+  conn.run(sql, [user.username, user.password, false]);
 }
 
 /**
@@ -88,13 +87,10 @@ export async function getUserInfoByUsername(
 ): Promise<UserCompleteInfo | null> {
   const sql = "SELECT * FROM users WHERE username = ?";
   try {
-    const [results] = await conn.query<UserCompleteInfo[] & RowDataPacket[]>(
-      sql,
-      [username]
-    );
+    const result = await conn.get<UserCompleteInfo>(sql, [username]);
 
-    if (results.length > 0) {
-      return results[0];
+    if (result) {
+      return result;
     } else {
       return null;
     }

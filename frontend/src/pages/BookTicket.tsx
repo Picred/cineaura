@@ -31,7 +31,6 @@ export const BookTicket = (): JSX.Element => {
       ...prev,
       [name]: value,
     }));
-    console.log(ticket);
   };
 
   /**
