@@ -35,9 +35,7 @@ export const authStore = create<AuthStore>((set) => ({
       }),
   register: (params: RegisterParams) =>
     registerUser(params)
-      .then(({ message }) => {
-        return message;
-      })
+      .then(() => {})
       .catch((error) => {
         throw error;
       }),

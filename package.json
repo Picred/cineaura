@@ -1,13 +1,11 @@
 {
-  "name": "frontend",
+  "name": "cineaura-demo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev:demo": "vite --mode demo",
-    "build": "tsc -b && vite build",
-    "build:demo": "tsc -b && vite build --mode demo",
+    "dev": "vite --mode demo",
+    "build": "tsc -b && vite build --mode demo",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
