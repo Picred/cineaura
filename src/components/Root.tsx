@@ -38,7 +38,9 @@ const router = createBrowserRouter([
     path: "*",
     element: <h1>404</h1>,
   },
-]);
+], {
+  basename: "/cineaura"
+});
 
 /**
  * Root component sets up the main application structure including routing and socket event listeners.
