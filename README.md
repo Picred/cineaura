@@ -75,19 +75,3 @@ If you want to run the production build:
    ```
    Access the website at `http://localhost:8080`.
 
-## Demo Version (Static)
-
-If you want to try the application without a backend, you can use the **Demo Mode**. In this mode, the app uses mock data and simulates database operations using browser `localStorage`.
-
-### Run Demo locally
-```bash
-cd frontend
-npm run dev:demo
-```
-
-### Build for GitHub Pages
-```bash
-cd frontend
-npm run build:demo
-```
-The output in `dist` will be a fully functional static site.
