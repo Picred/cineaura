@@ -2,6 +2,11 @@
 
 Cineaura is a full-stack website for managing cinemas, featuring an authentication and booking system.
 
+## [Live Demo](https://picred.github.io/cineaura/)
+
+## Preview
+![Cineaura Homepage](public/cineaura-homepage.png)
+
 ## Description
 
 The Cineaura website offers several features, including:
